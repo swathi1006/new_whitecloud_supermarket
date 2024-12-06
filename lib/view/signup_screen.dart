@@ -8,6 +8,7 @@ import '../controller/login_controller.dart';
 import '../database/global.dart';
 import '../database/mongo.dart';
 import '../util/colors.dart';
+import '../widgets/referralcode.dart';
 import 'main_screen.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -16,6 +17,8 @@ class SignupScreen extends StatelessWidget {
   TextEditingController phoneController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController otpController = TextEditingController();
+  final TextEditingController referralController = TextEditingController();
+
   String otp = '';
   bool signup = false;
   Timer? resendTimer;
@@ -117,7 +120,7 @@ class SignupScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 padding: EdgeInsets.fromLTRB(
-                    8.0, 8.0, 8.0, MediaQuery.of(context).viewInsets.bottom == 0 ? 70 : MediaQuery.of(context).viewInsets.bottom),
+                    12.0, 12.0, 12.0, MediaQuery.of(context).viewInsets.bottom == 0 ? 70 : MediaQuery.of(context).viewInsets.bottom),
                 child: Container(
                   // elevation: 10,
                   // shadowColor: Colors.black,
@@ -240,6 +243,14 @@ class SignupScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
+
+                          // Referral Code Field
+                          ReferralCodeField(referralController: referralController),
+
+                          const SizedBox(height: 10),
+
+                          // OTP Field
+
                           Form(
                             key: controller.otpKey,
                             child: AnimatedContainer(
