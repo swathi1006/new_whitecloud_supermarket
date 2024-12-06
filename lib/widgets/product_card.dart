@@ -279,27 +279,28 @@ class _ProductCardState extends State<ProductCard> {*/
                         overflow: TextOverflow.ellipsis, // Handle text overflow
                       ),
                     ),
-                    Row(
+                    const Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Divider(
                             color: primary,
                             thickness: 1,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            "", // Replace with actual text or leave empty
-                            style: TextStyle(
-                              color: primary,
-                              fontWeight: FontWeight.w300,
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.03,
-                            ),
-                          ),
-                        ),
-                        const Expanded(
+                        
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        //   child: Text(
+                        //     "", // Replace with actual text or leave empty
+                        //     style: TextStyle(
+                        //       color: primary,
+                        //       fontWeight: FontWeight.w300,
+                        //       fontSize:
+                        //           MediaQuery.of(context).size.width * 0.03,
+                        //     ),
+                        //   ),
+                        // ),
+                        Expanded(
                           child: Divider(
                             color: primary,
                             thickness: 1,
