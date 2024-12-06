@@ -435,6 +435,7 @@ class _ProductCardState extends State<ProductCard> {*/
                   ],
                 ),
               ),
+
               Align(
                 alignment: Alignment.topRight,
                 child: Container(
@@ -445,10 +446,8 @@ class _ProductCardState extends State<ProductCard> {*/
                   margin: const EdgeInsets.only(top: 8, right: 8),
                   height: 50,
                   width: 50,
-                  //color: secondary,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
 
+                  child: ClipRect(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -460,7 +459,7 @@ class _ProductCardState extends State<ProductCard> {*/
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: MediaQuery.of(context).size.width *
-                                    0.02, // Responsive font size
+                                    0.025, // Responsive font size
                                 fontWeight: FontWeight.w300,
                               ),
                             ),
@@ -469,11 +468,15 @@ class _ProductCardState extends State<ProductCard> {*/
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: MediaQuery.of(context).size.width *
-                                    0.02, // Responsive font size
+                                    0.025, // Responsive font size
                                 decoration: TextDecoration.lineThrough,
                               ),
                             ),
                           ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height *
+                              0.005, // Dynamic spacing
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -507,69 +510,150 @@ class _ProductCardState extends State<ProductCard> {*/
                         ),
                       ],
                     ),
-
-                    // child: Column(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: [
-                    //         const Text('₹',
-                    //             style: TextStyle(
-                    //                 color: Colors.white,
-                    //                 fontSize: 9,
-                    //                 fontWeight: FontWeight.w300)),
-                    //         Text(
-                    //           product.item_mrp,
-                    //           style: const TextStyle(
-                    //               color: Colors.white,
-                    //               fontSize: 9,
-                    //               decoration: TextDecoration.lineThrough),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     // Row(
-                    //     //   mainAxisAlignment: MainAxisAlignment.center,
-                    //     //   children: [const Text('₹', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w300)),
-                    //     //     Text(product.offer_price.toString().contains('.') ?
-                    //     //     '${product.offer_price}0 ' : product.offer_price,
-                    //     //       style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                    //     //     ),
-                    //     //   ],
-                    //     // ),
-                    //     Row(
-                    //       mainAxisAlignment: MainAxisAlignment.center,
-                    //       children: [
-                    //         const Text(
-                    //           '₹',
-                    //           style: TextStyle(
-                    //             color: Colors.white,
-                    //             fontSize: 15,
-                    //             fontWeight: FontWeight.w300,
-                    //           ),
-                    //         ),
-                    //         Flexible(
-                    //           child: Text(
-                    //             product.offer_price.toString().contains('.')
-                    //                 ? '${product.offer_price}0 '
-                    //                 : product.offer_price.toString(),
-                    //             style: const TextStyle(
-                    //               color: Colors.white,
-                    //               fontSize: 15,
-                    //               fontWeight: FontWeight.bold,
-                    //             ),
-                    //             overflow:
-                    //                 TextOverflow.ellipsis, // Prevent overflow
-                    //             maxLines: 1, // Limit to a single line
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     )
-                    //   ],
-                    // ),
                   ),
+
+                  // child: Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Text(
+                  //           '₹',
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontSize: MediaQuery.of(context).size.width *
+                  //                 0.025, // Responsive font size
+                  //             fontWeight: FontWeight.w300,
+                  //           ),
+                  //         ),
+                  //         Text(
+                  //           product.item_mrp,
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontSize: MediaQuery.of(context).size.width *
+                  //                 0.025, // Responsive font size
+                  //             decoration: TextDecoration.lineThrough,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     SizedBox(
+                  //       height: MediaQuery.of(context).size.height *
+                  //           0.005, // Dynamic spacing
+                  //     ),
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Text(
+                  //           '₹',
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontSize: MediaQuery.of(context).size.width *
+                  //                 0.04, // Responsive font size
+                  //             fontWeight: FontWeight.w300,
+                  //           ),
+                  //         ),
+                  //         Flexible(
+                  //           child: Text(
+                  //             product.offer_price.toString().contains('.')
+                  //                 ? '${product.offer_price}0 '
+                  //                 : product.offer_price.toString(),
+                  //             style: TextStyle(
+                  //               color: Colors.white,
+                  //               fontSize: MediaQuery.of(context).size.width *
+                  //                   0.04, // Responsive font size
+                  //               fontWeight: FontWeight.bold,
+                  //             ),
+                  //             overflow:
+                  //                 TextOverflow.ellipsis, // Prevent overflow
+                  //             maxLines: 1, // Limit to a single line
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                 ),
               ),
+
+              // Align(
+              //   alignment: Alignment.topRight,
+              //   child: Container(
+              //     decoration: const BoxDecoration(
+              //       shape: BoxShape.circle,
+              //       color: secondary,
+              //     ),
+              //     margin: const EdgeInsets.only(top: 8, right: 8),
+              //     height: 50,
+              //     width: 50,
+              //     //color: secondary,
+              //     child: Flexible(
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             children: [
+              //               Text(
+              //                 '₹',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: MediaQuery.of(context).size.width *
+              //                       0.025, // Responsive font size
+              //                   fontWeight: FontWeight.w300,
+              //                 ),
+              //               ),
+              //               Text(
+              //                 product.item_mrp,
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: MediaQuery.of(context).size.width *
+              //                       0.025, // Responsive font size
+              //                   decoration: TextDecoration.lineThrough,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //           SizedBox(
+              //               height: MediaQuery.of(context).size.height *
+              //                   0.005), // Dynamic spacing
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             children: [
+              //               Text(
+              //                 '₹',
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: MediaQuery.of(context).size.width *
+              //                       0.04, // Responsive font size
+              //                   fontWeight: FontWeight.w300,
+              //                 ),
+              //               ),
+              //               Flexible(
+              //                 child: Text(
+              //                   product.offer_price.toString().contains('.')
+              //                       ? '${product.offer_price}0 '
+              //                       : product.offer_price.toString(),
+              //                   style: TextStyle(
+              //                     color: Colors.white,
+              //                     fontSize:
+              //                         MediaQuery.of(context).size.width *
+              //                             0.04, // Responsive font size
+              //                     fontWeight: FontWeight.bold,
+              //                   ),
+              //                   overflow:
+              //                       TextOverflow.ellipsis, // Prevent overflow
+              //                   maxLines: 1, // Limit to a single line
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
