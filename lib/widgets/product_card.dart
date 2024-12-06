@@ -58,6 +58,189 @@ class _ProductCardState extends State<ProductCard> {*/
             children: [
               Align(
                 alignment: Alignment.bottomCenter,
+                // child: Column(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   crossAxisAlignment: CrossAxisAlignment.stretch,
+                //   children: [
+                //     const SizedBox(height: 30),
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         (product.item_image.toLowerCase() == "item_image")
+                //             ? Image.asset(
+                //                 'assets/images/garam_masala.png',
+                //                 height: 90,
+                //                 width: 90,
+                //               )
+                //             : Image.memory(
+                //                 base64Decode(product.item_image),
+                //                 width: 90,
+                //                 height: 90,
+                //               ),
+                //       ],
+                //     ),
+                //     Container(
+                //       width: MediaQuery.of(context).size.width * .3,
+                //       padding: const EdgeInsets.symmetric(
+                //           horizontal: 10.0, vertical: 0.0),
+                //       child: Text(
+                //         product.item_name.split(' ').take(6).join(' '),
+                //         style: const TextStyle(
+                //             color: primary,
+                //             fontSize: 11,
+                //             fontWeight: FontWeight.w400),
+                //       ),
+                //     ),
+                //     // const Row(
+                //     //   mainAxisAlignment: MainAxisAlignment.center,
+                //     //   children: [
+                //     //     Text('-----------------------------------',
+                //     //         style: TextStyle(
+                //     //             color: primary, fontWeight: FontWeight.w300)),
+                //     //   ],
+                //     // ),
+
+                //     Row(
+                //       children: [
+                //         const Expanded(
+                //           child: Divider(
+                //             color: primary,
+                //             thickness: 1,
+                //           ),
+                //         ),
+                //         Padding(
+                //           padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                //           child: Text(
+                //             "", // Replace with actual text or leave empty
+                //             style: TextStyle(
+                //               color: primary,
+                //               fontWeight: FontWeight.w300,
+                //               fontSize:
+                //                   MediaQuery.of(context).size.width * 0.04,
+                //             ),
+                //           ),
+                //         ),
+                //         const Expanded(
+                //           child: Divider(
+                //             color: primary,
+                //             thickness: 1,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+
+                //     product.instock_outstock_indication < 1
+                //         ? const Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               Padding(
+                //                 padding: EdgeInsets.only(bottom: 5.0),
+                //                 child: Text('Out of Stock',
+                //                     style: TextStyle(
+                //                         color: Colors.red,
+                //                         fontSize: 15,
+                //                         fontWeight: FontWeight.w400)),
+                //               ),
+                //             ],
+                //           )
+                //         : Obx(
+                //             () => Padding(
+                //               padding:
+                //                   const EdgeInsets.symmetric(horizontal: 8.0),
+                //               child: product.cartCount.value == 0
+                //                   ? GestureDetector(
+                //                       onTap: () {
+                //                         addToCart();
+                //                       },
+                //                       child: SizedBox(
+                //                           height: 30,
+                //                           child: Padding(
+                //                             padding: const EdgeInsets.only(
+                //                                 bottom: 5.0),
+                //                             child: Row(
+                //                               mainAxisAlignment:
+                //                                   MainAxisAlignment.center,
+                //                               children: [
+                //                                 SvgPicture.asset(
+                //                                   'assets/logo/whitelogo.svg',
+                //                                   height: 13,
+                //                                   color: secondary,
+                //                                 ),
+                //                                 const SizedBox(
+                //                                   width: 5,
+                //                                 ),
+                //                                 const Text('Add to Cart',
+                //                                     style: TextStyle(
+                //                                         color: primary,
+                //                                         fontSize: 13,
+                //                                         fontWeight:
+                //                                             FontWeight.w400)),
+                //                               ],
+                //                             ),
+                //                           )),
+                //                     )
+                //                   : SizedBox(
+                //                       height: 30,
+                //                       child: Row(
+                //                         mainAxisAlignment:
+                //                             MainAxisAlignment.center,
+                //                         children: [
+                //                           GestureDetector(
+                //                             onTap: () {
+                //                               removeFromCart();
+                //                             },
+                //                             child: Container(
+                //                                 width: 30,
+                //                                 decoration:
+                //                                     const BoxDecoration(),
+                //                                 child: const Row(
+                //                                   mainAxisAlignment:
+                //                                       MainAxisAlignment.center,
+                //                                   children: [
+                //                                     Text('-',
+                //                                         style: TextStyle(
+                //                                             color: Colors.red,
+                //                                             fontWeight:
+                //                                                 FontWeight.bold,
+                //                                             fontSize: 20)),
+                //                                   ],
+                //                                 )),
+                //                           ),
+                //                           Text(
+                //                             '${product.cartCount}',
+                //                             style: const TextStyle(
+                //                                 fontWeight: FontWeight.bold,
+                //                                 fontSize: 15),
+                //                           ),
+                //                           GestureDetector(
+                //                             onTap: () {
+                //                               addToCart();
+                //                             },
+                //                             child: Container(
+                //                                 width: 30,
+                //                                 decoration:
+                //                                     const BoxDecoration(),
+                //                                 child: const Row(
+                //                                   mainAxisAlignment:
+                //                                       MainAxisAlignment.center,
+                //                                   children: [
+                //                                     Text('+',
+                //                                         style: TextStyle(
+                //                                             color: Colors.green,
+                //                                             fontWeight:
+                //                                                 FontWeight.bold,
+                //                                             fontSize: 20)),
+                //                                   ],
+                //                                 )),
+                //                           ),
+                //                         ],
+                //                       ),
+                //                     ),
+                //             ),
+                //           )
+                //   ],
+                // ),
+
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,34 +252,59 @@ class _ProductCardState extends State<ProductCard> {*/
                         (product.item_image.toLowerCase() == "item_image")
                             ? Image.asset(
                                 'assets/images/garam_masala.png',
-                                height: 90,
-                                width: 90,
+                                height: MediaQuery.of(context).size.height *
+                                    0.1, // Responsive height
+                                width: MediaQuery.of(context).size.width *
+                                    0.2, // Responsive width
                               )
                             : Image.memory(
                                 base64Decode(product.item_image),
-                                width: 90,
-                                height: 90,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                width: MediaQuery.of(context).size.width * 0.2,
                               ),
                       ],
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * .3,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 0.0),
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Text(
                         product.item_name.split(' ').take(6).join(' '),
-                        style: const TextStyle(
-                            color: primary,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                          color: primary,
+                          fontSize: MediaQuery.of(context).size.width *
+                              0.03, // Responsive font size
+                          fontWeight: FontWeight.w400,
+                        ),
+                        overflow: TextOverflow.ellipsis, // Handle text overflow
                       ),
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Row(
                       children: [
-                        Text('-----------------------------------',
+                        const Expanded(
+                          child: Divider(
+                            color: primary,
+                            thickness: 1,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "", // Replace with actual text or leave empty
                             style: TextStyle(
-                                color: primary, fontWeight: FontWeight.w300)),
+                              color: primary,
+                              fontWeight: FontWeight.w300,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.03,
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          child: Divider(
+                            color: primary,
+                            thickness: 1,
+                          ),
+                        ),
                       ],
                     ),
                     product.instock_outstock_indication < 1
@@ -105,11 +313,14 @@ class _ProductCardState extends State<ProductCard> {*/
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(bottom: 5.0),
-                                child: Text('Out of Stock',
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400)),
+                                child: Text(
+                                  'Out of Stock',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
                               ),
                             ],
                           )
@@ -123,31 +334,36 @@ class _ProductCardState extends State<ProductCard> {*/
                                         addToCart();
                                       },
                                       child: SizedBox(
-                                          height: 30,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 5.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/logo/whitelogo.svg',
-                                                  height: 13,
-                                                  color: secondary,
+                                        height: 30,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 5.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/logo/whitelogo.svg',
+                                                height: 13,
+                                                color: secondary,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Text(
+                                                'Add to Cart',
+                                                style: TextStyle(
+                                                  color: primary,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.03,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                const Text('Add to Cart',
-                                                    style: TextStyle(
-                                                        color: primary,
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w400)),
-                                              ],
-                                            ),
-                                          )),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     )
                                   : SizedBox(
                                       height: 30,
@@ -160,54 +376,62 @@ class _ProductCardState extends State<ProductCard> {*/
                                               removeFromCart();
                                             },
                                             child: Container(
-                                                width: 30,
-                                                decoration:
-                                                    const BoxDecoration(),
-                                                child: const Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text('-',
-                                                        style: TextStyle(
-                                                            color: Colors.red,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 20)),
-                                                  ],
-                                                )),
+                                              width: 30,
+                                              child: const Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '-',
+                                                    style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                           Text(
                                             '${product.cartCount}',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.03,
+                                            ),
                                           ),
                                           GestureDetector(
                                             onTap: () {
                                               addToCart();
                                             },
                                             child: Container(
-                                                width: 30,
-                                                decoration:
-                                                    const BoxDecoration(),
-                                                child: const Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text('+',
-                                                        style: TextStyle(
-                                                            color: Colors.green,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 20)),
-                                                  ],
-                                                )),
+                                              width: 30,
+                                              child: const Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '+',
+                                                    style: TextStyle(
+                                                      color: Colors.green,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
                             ),
-                          )
+                          ),
                   ],
                 ),
               ),
@@ -224,43 +448,42 @@ class _ProductCardState extends State<ProductCard> {*/
                   //color: secondary,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
+
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('₹',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w300)),
                             Text(
-                              product.item_mrp,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 9,
-                                  decoration: TextDecoration.lineThrough),
-                            ),
-                          ],
-                        ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [const Text('₹', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w300)),
-                        //     Text(product.offer_price.toString().contains('.') ?
-                        //     '${product.offer_price}0 ' : product.offer_price,
-                        //       style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                        //     ),
-                        //   ],
-                        // ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
                               '₹',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 15,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    0.02, // Responsive font size
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            Text(
+                              product.item_mrp,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    0.02, // Responsive font size
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '₹',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    0.04, // Responsive font size
                                 fontWeight: FontWeight.w300,
                               ),
                             ),
@@ -269,9 +492,10 @@ class _ProductCardState extends State<ProductCard> {*/
                                 product.offer_price.toString().contains('.')
                                     ? '${product.offer_price}0 '
                                     : product.offer_price.toString(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 15,
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      0.04, // Responsive font size
                                   fontWeight: FontWeight.bold,
                                 ),
                                 overflow:
@@ -280,9 +504,69 @@ class _ProductCardState extends State<ProductCard> {*/
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
+
+                    // child: Column(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         const Text('₹',
+                    //             style: TextStyle(
+                    //                 color: Colors.white,
+                    //                 fontSize: 9,
+                    //                 fontWeight: FontWeight.w300)),
+                    //         Text(
+                    //           product.item_mrp,
+                    //           style: const TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: 9,
+                    //               decoration: TextDecoration.lineThrough),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //     // Row(
+                    //     //   mainAxisAlignment: MainAxisAlignment.center,
+                    //     //   children: [const Text('₹', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w300)),
+                    //     //     Text(product.offer_price.toString().contains('.') ?
+                    //     //     '${product.offer_price}0 ' : product.offer_price,
+                    //     //       style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                    //     //     ),
+                    //     //   ],
+                    //     // ),
+                    //     Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         const Text(
+                    //           '₹',
+                    //           style: TextStyle(
+                    //             color: Colors.white,
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.w300,
+                    //           ),
+                    //         ),
+                    //         Flexible(
+                    //           child: Text(
+                    //             product.offer_price.toString().contains('.')
+                    //                 ? '${product.offer_price}0 '
+                    //                 : product.offer_price.toString(),
+                    //             style: const TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: 15,
+                    //               fontWeight: FontWeight.bold,
+                    //             ),
+                    //             overflow:
+                    //                 TextOverflow.ellipsis, // Prevent overflow
+                    //             maxLines: 1, // Limit to a single line
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     )
+                    //   ],
+                    // ),
                   ),
                 ),
               ),
