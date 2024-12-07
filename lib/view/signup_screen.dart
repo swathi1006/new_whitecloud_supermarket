@@ -19,11 +19,14 @@ class SignupScreen extends StatelessWidget {
   TextEditingController otpController = TextEditingController();
   final TextEditingController referralController = TextEditingController();
 
+
   String otp = '';
   bool signup = false;
   Timer? resendTimer;
   RxBool otpSent = false.obs;
   RxBool otpResent = false.obs;
+
+  
 
   void startResendTimer() {
 
@@ -160,7 +163,7 @@ class SignupScreen extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
+                    padding:EdgeInsets.all(26),
                     child: Obx(
                           () => Column(
                         mainAxisSize: MainAxisSize.min,
@@ -245,9 +248,11 @@ class SignupScreen extends StatelessWidget {
                           const SizedBox(height: 10),
 
                           // Referral Code Field
-                          ReferralCodeField(referralController: referralController),
+                          ReferralCodeField(referralController: referralController,
+                          onVerify: (){},
+                          ),
 
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15),
 
                           // OTP Field
 
