@@ -7,17 +7,50 @@ import 'package:whitesupermarketapp/view/splash_screen.dart';
 import 'database/global.dart';
 import 'database/mongo.dart';
 
+// Future<void> main() async {
+//   Map<String, dynamic> dbAndCollection = await MongoDB.connect();
+//   db = dbAndCollection['db'];
+//   collection_items = dbAndCollection['collection_items'];
+//   collection_banners = dbAndCollection['collection_banners'];
+//   runApp(const MyApp());
+
+//   SystemChrome.setPreferredOrientations([
+//     DeviceOrientation.portraitUp,
+//   ]);
+// }
+
 Future<void> main() async {
-  Map<String, dynamic> dbAndCollection = await MongoDB.connect();
-  db = dbAndCollection['db'];
-  collection_items = dbAndCollection['collection_items'];
-  collection_banners = dbAndCollection['collection_banners'];
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures binding is initialized for async operations
+
+  try {
+    Map<String, dynamic>? dbAndCollection = await MongoDB.connect();
+
+    if (dbAndCollection == null) {
+      // Handle connection failure gracefully
+      print('Failed to connect to MongoDB. Exiting app.');
+      // runApp(const ConnectionErrorApp()); // Show a fallback app or UI
+      return;
+    }
+
+    // Assign the connected database and collections
+    db = dbAndCollection['db'];
+    collection_items = dbAndCollection['collection_items'];
+    collection_banners = dbAndCollection['collection_banners'];
+  } catch (e) {
+    print('An unexpected error occurred during database initialization: $e');
+    // runApp(const ConnectionErrorApp()); // Show a fallback app or UI
+    return;
+  }
+
+  // Proceed with the main application if no errors
   runApp(const MyApp());
 
+  // Lock device orientation
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

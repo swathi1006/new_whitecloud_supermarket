@@ -720,52 +720,124 @@ class SearchBarContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return Container(
+      
+    //   decoration: BoxDecoration(
+    //     color: Colors.white,
+    //     borderRadius: BorderRadius.circular(10),
+    //     boxShadow: [
+    //       BoxShadow(
+    //         color: Colors.black.withOpacity(0.1),
+    //         blurRadius: 8,
+    //         offset: Offset(0, 3),
+    //       ),
+    //     ],
+    //   ),
+    //   child: Padding(
+    //     padding: EdgeInsets.symmetric(
+    //       horizontal: MediaQuery.of(context).size.width *
+    //           0.03, // Dynamic horizontal padding
+    //     ),
+    //     child: TextField(
+    //       decoration: InputDecoration(
+    //         hintText: 'Search from 10,000+ Products',
+    //         hintStyle: TextStyle(
+    //           color: Colors.grey,
+    //           fontSize: MediaQuery.of(context).textScaleFactor *
+    //               15, // Scalable font size
+    //           fontWeight: FontWeight.w400,
+    //         ),
+    //         prefixIcon: const Icon(
+    //           Icons.search,
+    //           color: Colors.grey,
+    //         ),
+    //         suffixIcon: controller.searchbarController.text.isNotEmpty
+    //             ? IconButton(
+    //                 onPressed: () {
+    //                   controller.searchbarController.clear();
+    //                   controller.showBlankSearchSuggestions.value = true;
+    //                   controller.search.value = false;
+    //                 },
+    //                 icon: const Icon(Icons.clear, color: Colors.grey),
+    //               )
+    //             : null,
+    //         border: InputBorder.none,
+    //         contentPadding: EdgeInsets.symmetric(
+    //           vertical: MediaQuery.of(context).size.height *
+    //               0.015, // Dynamic vertical padding
+    //         ),
+    //       ),
+    //       controller: controller.searchbarController,
+    //       focusNode: controller.searchBarFocusNode,
+    //       style: TextStyle(
+    //         color: Colors.black,
+    //         fontSize: MediaQuery.of(context).textScaleFactor *
+    //             16, // Scalable font size
+    //       ),
+    //       cursorColor: Colors.grey,
+    //       onChanged: (value) {
+    //         controller.searchProduct(value);
+    //       },
+    //     ),
+    //   ),
+    // );
+
     return Container(
-      decoration: const BoxDecoration(color: primary),
+      decoration:  BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        blurRadius: 8,
+        offset: Offset(0, 3),
+      ),
+    ],
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8, right: 10, left: 30),
-          child: TextField(
-            decoration: InputDecoration(
-                hintText: 'Search from 10,000+ Products',
-                border: InputBorder.none,
-                hintStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300),
-                suffixIcon: !controller.showBlankSearchSuggestions.value
-                    ? IconButton(
-                        onPressed: controller.search.value
-                            ? () {
-                                controller.searchbarController
-                                    .clear(); // Clear the text in the search bar
-                                controller.showBlankSearchSuggestions.value =
-                                    true; // Show the search suggestions
-                                controller.search.value =
-                                    false; // Hide the search icon
-                              }
-                            : () {
-                                controller.searchbarController.clear();
-                                controller.showBlankSearchSuggestions.value =
-                                    true;
-                              },
-                        icon: const Icon(Icons.clear_outlined, color: white),
-                      )
-                    : IconButton(
-                        onPressed: () {
-                          controller.search.value = true;
-                          controller.searchBarFocusNode.requestFocus();
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                          color: white,
-                        ))),
-            controller: controller.searchbarController,
-            focusNode: controller.searchBarFocusNode,
-            style: const TextStyle(color: white),
-            cursorColor: textHintWhite,
-          ),
+        padding:  EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.06, // Dynamic horizontal padding
+        ),
+        child: TextField(
+          decoration: InputDecoration(
+            border: InputBorder.none,
+
+              hintText: 'Search from 10,000+ Products',
+              hintStyle:  TextStyle(
+                  color: const Color.fromARGB(174, 0, 0, 0),
+                  fontSize: MediaQuery.of(context).textScaleFactor * 15, // Scalable font size,
+                  fontWeight: FontWeight.w400),
+              suffixIcon: !controller.showBlankSearchSuggestions.value
+                  ? IconButton(
+                      onPressed: controller.search.value
+                          ? () {
+                              controller.searchbarController
+                                  .clear(); // Clear the text in the search bar
+                              controller.showBlankSearchSuggestions.value =
+                                  true; // Show the search suggestions
+                              controller.search.value =
+                                  false; // Hide the search icon
+                            }
+                          : () {
+                              controller.searchbarController.clear();
+                              controller.showBlankSearchSuggestions.value =
+                                  true;
+                            },
+                      icon: const Icon(Icons.search, color: black),
+                    )
+                  : IconButton(
+                      onPressed: () {
+                        controller.search.value = true;
+                        controller.searchBarFocusNode.requestFocus();
+                      },
+                      icon: const Icon(
+                        Icons.search,
+                        color: Color.fromARGB(174, 0, 0, 0),
+                      ))),
+          controller: controller.searchbarController,
+          focusNode: controller.searchBarFocusNode,
+          style: const TextStyle(color: black),
+          cursorColor: black26,
         ),
       ),
     );
