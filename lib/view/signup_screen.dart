@@ -12,7 +12,7 @@ import '../widgets/referralcode.dart';
 import 'main_screen.dart';
 
 class SignupScreen extends StatelessWidget {
-  SignupScreen({Key? key}) : super(key: key);
+  SignupScreen({super.key});
   final LoginController controller = Get.put(LoginController());
   TextEditingController phoneController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -20,6 +20,7 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController referralController = TextEditingController();
 
 
+  bool Result = false;
   String otp = '';
   bool signup = false;
   Timer? resendTimer;
@@ -163,7 +164,7 @@ class SignupScreen extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding:EdgeInsets.all(26),
+                    padding:const EdgeInsets.all(26),
                     child: Obx(
                           () => Column(
                         mainAxisSize: MainAxisSize.min,
@@ -233,7 +234,7 @@ class SignupScreen extends StatelessWidget {
                                   autofocus: true,
                                   validator: (value) {
                                     if (value == '') {
-                                      return 'Enter Phone Number to sign upr';
+                                      return 'Enter Phone Number to sign up';
                                     }
                                     if (value!.length < 10) {
                                       return 'Enter valid Phone Number';
@@ -248,8 +249,21 @@ class SignupScreen extends StatelessWidget {
                           const SizedBox(height: 10),
 
                           // Referral Code Field
-                          ReferralCodeField(referralController: referralController,
-                          onVerify: (){},
+                          AnimatedContainer(
+                            height: controller.mobileHeight.value,
+                            duration: const Duration(milliseconds: 250),
+                            child: AnimatedOpacity(
+                              opacity: controller.showOtp.value || otpResent.value? 0 : 1,
+                              duration: const Duration(milliseconds: 250),
+                              child: ReferralCodeField(referralController: referralController,
+                              //onVerify: (){},
+                                onReferralVerified: (bool result) {
+                                   Result = result;
+                                  // Now you can access the result here
+                                  //print('Referral Verified: $result');
+                                },
+                              ),
+                            ),
                           ),
 
                           const SizedBox(height: 15),
@@ -327,10 +341,21 @@ class SignupScreen extends StatelessWidget {
                                 //print(phoneController.text);
                                 var user1 = await collection_users?.findOne(where.eq('phone', phoneController.text));
                                 if (user1 ==null){
-                                  addUser(nameController.text, phoneController.text);
-                                  signup=!signup;
-                                  sendotp();
-                                  await MongoDB.getuser(phoneController.text);
+                                  // addUser(nameController.text, phoneController.text);
+                                  // signup=!signup;
+                                  // sendotp();
+                                  // await MongoDB.getuser(phoneController.text);
+                                  // Referral code validation logic
+                                  String referralCode = referralController.text.trim();
+                                  if (referralCode.isEmpty || Result == true) {
+                                    addUser(nameController.text, phoneController.text);
+                                    signup = !signup;
+                                    sendotp();
+                                    await MongoDB.getuser(phoneController.text);
+                                  } else {
+                                    Get.snackbar('Referral Code Error', 'Please validate referral code');
+                                  }
+
                                 }
                                 else{
                                   Get.snackbar('You number is already registered', 'Please login to continue');
