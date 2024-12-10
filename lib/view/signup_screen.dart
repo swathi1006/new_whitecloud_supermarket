@@ -17,7 +17,7 @@ class SignupScreen extends StatelessWidget {
   TextEditingController phoneController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController otpController = TextEditingController();
-  final TextEditingController referralController = TextEditingController();
+   TextEditingController referralController = TextEditingController();
 
 
   bool Result = false;
@@ -348,7 +348,8 @@ class SignupScreen extends StatelessWidget {
                                   // Referral code validation logic
                                   String referralCode = referralController.text.trim();
                                   if (referralCode.isEmpty || Result == true) {
-                                    addUser(nameController.text, phoneController.text);
+                                    // addUser(nameController.text, phoneController.text);
+                                    addUser(name: nameController.text, mobile: phoneController.text, referralCode: referralController.text);
                                     signup = !signup;
                                     sendotp();
                                     await MongoDB.getuser(phoneController.text);

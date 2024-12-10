@@ -5,9 +5,12 @@ DbCollection? collection_items;
 DbCollection? collection_banners;
 DbCollection? collection_users;
 DbCollection? collection_invoice;
+DbCollection? collection_agents;
 List<Map<String, dynamic>> globalBanners = [];
 List<Map<String, dynamic>> globalitems = [];
 List<Map<String, dynamic>> globalTags = [];
+List<Map<String, dynamic>> globalAgents = [];
+
 //List<Map<String, dynamic>> globalusers = [];
 Map<String, dynamic> globalusers = {};
 List<Map<String, dynamic>> globalcart = [];

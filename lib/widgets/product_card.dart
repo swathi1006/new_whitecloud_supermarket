@@ -287,7 +287,7 @@ class _ProductCardState extends State<ProductCard> {*/
                             thickness: 1,
                           ),
                         ),
-                        
+
                         // Padding(
                         //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         //   child: Text(
@@ -493,17 +493,23 @@ class _ProductCardState extends State<ProductCard> {*/
                             ),
                             Flexible(
                               child: Text(
-                                product.offer_price.toString().contains('.')
-                                    ? '${product.offer_price}0 '
-                                    : product.offer_price.toString(),
+                                // Convert the offer_price to double and then format it
+                                double.tryParse(product.offer_price) != null
+                                    ? double.parse(product.offer_price) % 1 == 0
+                                        ? product.offer_price
+                                        : double.tryParse(product.offer_price)
+                                                ?.toStringAsFixed(1) ??
+                                            product.offer_price
+                                    : product
+                                        .offer_price, // Fallback to original value if parsing fails
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: MediaQuery.of(context).size.width *
                                       0.04, // Responsive font size
                                   fontWeight: FontWeight.bold,
                                 ),
-                                overflow:
-                                    TextOverflow.ellipsis, // Prevent overflow
+                                overflow: TextOverflow
+                                    .visible, // Ensure no ellipsis if the text is valid
                                 maxLines: 1, // Limit to a single line
                               ),
                             ),
@@ -512,6 +518,71 @@ class _ProductCardState extends State<ProductCard> {*/
                       ],
                     ),
                   ),
+
+                  // child: ClipRect(
+                  //   child: Column(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Text(
+                  //             '₹',
+                  //             style: TextStyle(
+                  //               color: Colors.white,
+                  //               fontSize: MediaQuery.of(context).size.width *
+                  //                   0.025, // Responsive font size
+                  //               fontWeight: FontWeight.w300,
+                  //             ),
+                  //           ),
+                  //           Text(
+                  //             product.item_mrp,
+                  //             style: TextStyle(
+                  //               color: Colors.white,
+                  //               fontSize: MediaQuery.of(context).size.width *
+                  //                   0.025, // Responsive font size
+                  //               decoration: TextDecoration.lineThrough,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       SizedBox(
+                  //         height: MediaQuery.of(context).size.height *
+                  //             0.005, // Dynamic spacing
+                  //       ),
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Text(
+                  //             '₹',
+                  //             style: TextStyle(
+                  //               color: Colors.white,
+                  //               fontSize: MediaQuery.of(context).size.width *
+                  //                   0.04, // Responsive font size
+                  //               fontWeight: FontWeight.w300,
+                  //             ),
+                  //           ),
+                  //           Flexible(
+                  //             child: Text(
+                  //               product.offer_price.toString().contains('.')
+                  //                   ? '${product.offer_price}0 '
+                  //                   : product.offer_price.toString(),
+                  //               style: TextStyle(
+                  //                 color: Colors.white,
+                  //                 fontSize: MediaQuery.of(context).size.width *
+                  //                     0.04, // Responsive font size
+                  //                 fontWeight: FontWeight.bold,
+                  //               ),
+                  //               overflow:
+                  //                   TextOverflow.ellipsis, // Prevent overflow
+                  //               maxLines: 1, // Limit to a single line
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
 
                   // child: Column(
                   //   mainAxisAlignment: MainAxisAlignment.center,

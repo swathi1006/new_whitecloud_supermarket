@@ -192,7 +192,7 @@ class MyAccountController extends GetxController {
       String id = userAddresses.length.toString();
       userAddresses.add(UserAddress(id, nameText.text, mobileText.text, addLine1.text, addLine2.text, state.text, city.text, pincode.text, istoggled.value));
       UserAddress userAddress = UserAddress(id, nameText.text, mobileText.text, addLine1.text, addLine2.text, state.text, city.text, pincode.text, istoggled.value);
-      addUserAddresstoServer(userAddress);
+      addUserAddressToServer(userAddress);
       if (istoggled.value) {
         setAddressDefault(id);
       }
