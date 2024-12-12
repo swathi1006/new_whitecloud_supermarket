@@ -264,6 +264,7 @@ class LoginScreen extends StatelessWidget {
                                   if(otp== otpController.text) {
                                     SharedPreferences prefs = await SharedPreferences.getInstance();
                                     prefs.setString('phonenumber', phoneController.text);
+                                    print('Saved phone number: ${prefs.getString('phonenumber')}');
                                     controller.isLoggedIn(true);
                                     phone=phoneController.text;
                                     while(!controller.dataFetched.value) {

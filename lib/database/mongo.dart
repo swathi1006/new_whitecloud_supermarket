@@ -281,18 +281,39 @@ import 'constants.dart';
 import 'global.dart';
 
 class MongoDB {
-  static Future<Map<String, dynamic>> connect() async {
-    db = await Db.create(MONGO_URL);
-    await db!.open();
-    var collection_items = db!.collection(COLLECTION_ITEMS);
-    var collection_banners = db!.collection(COLLECTION_BANNERS);
-    collection_users = db!.collection('users');
-    collection_agents = db!.collection('agents'); // Add agents collection
-    return {
-      'db': db,
-      'collection_items': collection_items,
-      'collection_banners': collection_banners
-    };
+  
+  // static Future<Map<String, dynamic>> connect() async {
+  //   db = await Db.create(MONGO_URL);
+  //   await db!.open();
+  //   var collection_items = db!.collection(COLLECTION_ITEMS);
+  //   var collection_banners = db!.collection(COLLECTION_BANNERS);
+  //   collection_users = db!.collection('users');
+  //   collection_agents = db!.collection('agents'); // Add agents collection
+  //   return {
+  //     'db': db,
+  //     'collection_items': collection_items,
+  //     'collection_banners': collection_banners
+  //   };
+  // }
+   static Future<Map<String, dynamic>?> connect() async {
+    try {
+      db = await Db.create(MONGO_URL);
+      await db!.open();
+      
+      collection_items = db!.collection(COLLECTION_ITEMS);
+      collection_banners = db!.collection(COLLECTION_BANNERS);
+      collection_users = db!.collection('users');
+      collection_agents = db!.collection('agents'); // Add agents collection
+
+      return {
+        'db': db,
+        'collection_items': collection_items,
+        'collection_banners': collection_banners,
+      };
+    } catch (e) {
+      print('Error connecting to MongoDB: $e');
+      return null;
+    }
   }
 
   // Other methods (unchanged)
@@ -352,14 +373,52 @@ class MongoDB {
     return items;
   }
 
-  static getuser(String phone) async {
-    globalusers = (await collection_users?.findOne(where.eq('phone', phone)))!;
-    UserId = globalusers['_id'].toHexString();
-    UserName = globalusers['name'];
+  // static getuser(String phone) async {
+  //   globalusers = (await collection_users?.findOne(where.eq('phone', phone)))!;
+  //   UserId = globalusers['_id'].toHexString();
+  //   UserName = globalusers['name'];
+  //   getCart();
+  //   getAddress();
+  //   getOrder();
+  // }
+
+static Map<String, dynamic> globalusers = {}; // Initialize as an empty map
+
+static Future<void> getuser(String phone) async {
+  try {
+    // Ensure the collection is not null
+    if (collection_users == null) {
+      throw Exception("Database collection 'collection_users' is null. Check your MongoDB connection.");
+    }
+
+    // Query the user based on the phone number
+    var result = await collection_users?.findOne(where.eq('phone', phone));
+
+    // Handle case where no user is found
+    if (result == null) {
+      throw Exception("No user found with phone number: $phone");
+    }
+
+    // Assign global user data
+    globalusers = result;
+    UserId = globalusers['_id']?.toHexString() ?? "Unknown User ID";
+    UserName = globalusers['name'] ?? "Unknown User";
+
+    // Call dependent functions safely
     getCart();
     getAddress();
     getOrder();
+  } catch (e) {
+    // Log and handle the error gracefully
+    print("Error in getuser: $e");
+
+    // Reset global variables to avoid using invalid data
+    globalusers = {}; // Clear the map safely by reinitializing
+    UserId = "Unknown";
+    UserName = "Unknown";
   }
+}
+
 
   static getCart() async {
     var usercart = (globalusers['user_cart'] ?? []).toList();

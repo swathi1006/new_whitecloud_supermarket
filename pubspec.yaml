@@ -32,6 +32,7 @@ dependencies:
   geocoding: ^3.0.0
   shared_preferences: ^2.2.3
   path_provider: ^2.1.3
+  flutter_native_splash: ^2.4.3
 
 
 dev_dependencies:
@@ -44,6 +45,23 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+
+# flutter_native_splash:
+#   color: "#302F7F" # Background color
+#   image: assets/logo/nativelogo.png # Path to your splash logo
+
+#   android_12:
+#     image: assets/logo/nativelogo.png
+#     color: "#302F7F"
+    
+
+#     # color_android: "#302F7F"
+#     android_gravity: center
+
+#   web: true
+
+
+#   fullscreen: true # Optional, makes it fullscreen
 
 
 #flutter_launcher_icons:
@@ -95,3 +113,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  
+
+
