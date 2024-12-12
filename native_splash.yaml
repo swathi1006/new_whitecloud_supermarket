@@ -6,3 +6,16 @@
 #   color: "#302F7F"
 #   image: "assets/logo/white_super_market_logo.png"
   
+flutter_native_splash:
+  color: "#302F7F"
+  image: assets/logo/white_super_market_logo.png
+
+  android_12:
+    image: assets/logo/white_super_market_logo.png
+    color: "#302F7F"
+    icon_background_color: "#302F7F"
+ 
+    color_android: "#302F7F"
+    android_gravity: bottom
+
+  web: true
