@@ -161,7 +161,7 @@ class HomeController extends GetxController {
     //setProductsBasedOnTagSearch(pattern);
   }
 
-void setProductsBasedOnTagSearch() async{
+Future<void> setProductsBasedOnTagSearch() async{
   List<Product> filteredItems;
   if (searchbarController.text != '') {
     label.value = searchbarController.text;

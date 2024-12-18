@@ -439,81 +439,140 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
+
                       if (controller.showSearchSuggestions.value)
                         SingleChildScrollView(
                           child: Container(
                             color: controller.showBlankSearchSuggestions.value
                                 ? black26
                                 : white,
-                            //height: Get.height,
                             width: Get.width,
                             child: Obx(
-                              () => controller.showBlankSearchSuggestions.value
+                                  () => controller.showBlankSearchSuggestions.value
                                   ? Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                              color: white,
-                                              borderRadius:
-                                                  BorderRadiusDirectional
-                                                      .vertical(
-                                                          bottom:
-                                                              Radius.circular(
-                                                                  10))),
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          // color: white,
-                                          child: Wrap(
-                                            alignment:
-                                                WrapAlignment.spaceEvenly,
-                                            children: controller.allProducts
-                                                .map((e) => GestureDetector(
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                    4.0),
-                                                        child: Chip(
-                                                            label: Text(
-                                                          e,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 12),
-                                                        )),
-                                                      ),
-                                                      onTap: () {
-                                                        controller
-                                                            .searchbarController
-                                                            .text = e;
-                                                        controller
-                                                            .searchBarFocusNode
-                                                            .requestFocus();
-                                                        controller
-                                                            .searchBarFocusNode
-                                                            .unfocus(); // Close the keyboard
-                                                        //print('${e}..........................');
-                                                      },
-                                                    ))
-                                                .toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          controller.searchSuggestions.length,
-                                      itemBuilder: (context, i) =>
-                                          searchListItem(
-                                              controller.searchSuggestions[i],
-                                              controller),
+                                crossAxisAlignment:
+                                CrossAxisAlignment.stretch,
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: white,
+                                      borderRadius:
+                                      BorderRadiusDirectional
+                                          .vertical(
+                                        bottom: Radius.circular(10),
+                                      ),
                                     ),
+                                    padding:
+                                    const EdgeInsets.only(bottom: 10),
+                                    height: Get.height *
+                                        0.4, // Fixed height for scrollable area
+                                    child: GridView.builder(
+                                      gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent:
+                                        150, // Maximum width of each item
+                                        mainAxisSpacing:
+                                        10, // Vertical spacing between rows
+                                        crossAxisSpacing:
+                                        1, // Horizontal spacing between items
+                                        childAspectRatio:
+                                        4, // Adjusts width-to-height ratio of each item
+                                      ),
+                                      itemCount:
+                                      controller.allProducts.length,
+                                      itemBuilder: (context, index) {
+                                        final e =
+                                        controller.allProducts[index];
+                                        return _HoverableChip(
+                                          label: e,
+                                          onTap: () async {
+                                            controller.searchbarController
+                                                .text = e;
+                                            controller.searchBarFocusNode
+                                                .unfocus(); // Close keyboard
+                                            controller
+                                                .setProductsBasedOnTagSearch(); // Fetch and display products
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                                  : ListView.builder(
+                                shrinkWrap: true,
+                                itemCount:
+                                controller.searchSuggestions.length,
+                                itemBuilder: (context, i) =>
+                                    searchListItem(
+                                      controller.searchSuggestions[i],
+                                      controller,
+                                    ),
+                              ),
                             ),
                           ),
-                        )
+                        ),
+                       /* SingleChildScrollView(
+                          child: Container(
+                            color: controller.showBlankSearchSuggestions.value ? black26 : white,
+                            width: Get.width,
+                            child: Obx(
+                                  () => controller.showBlankSearchSuggestions.value
+                                  ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: white,
+                                      borderRadius: BorderRadiusDirectional.vertical(
+                                        bottom: Radius.circular(10),
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    height: Get.height*0.4, // Fixed height for scrollable area
+                                    child: GridView.builder(
+                                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 200, // Maximum width of each item
+                                        mainAxisSpacing: 10, // Vertical spacing between rows
+                                        crossAxisSpacing: 1, // Horizontal spacing between items
+                                        childAspectRatio: 4, // Adjusts width-to-height ratio of each item
+                                      ),
+                                      itemCount: controller.allProducts.length,
+                                      itemBuilder: (context, index) {
+                                        final e = controller.allProducts[index];
+                                        return GestureDetector(
+                                          child: Chip(
+                                            label: Text(
+                                              e,
+                                              style: const TextStyle(fontSize: 12),
+                                            ),
+                                            shape: StadiumBorder(),
+                                          ),
+                                          onTap: () async {
+                                            controller.searchbarController.text = e;
+                                            controller.searchBarFocusNode.unfocus(); // Close keyboard
+                                            await controller.setProductsBasedOnTagSearch(); // Fetch and display products
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                                  : ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: controller.searchSuggestions.length,
+                                itemBuilder: (context, i) => searchListItem(
+                                  controller.searchSuggestions[i],
+                                  controller,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )*/
+
+
+
                     ],
                   ),
                 ),
@@ -701,7 +760,8 @@ class ImageCarousel extends StatelessWidget {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                child: Image.memory(base64Decode(banner['banner_img'])),
+                child: Image.network(banner['banner_img'],),
+                //Image.memory(base64Decode(banner['banner_img'])),
               ),
             );
           },
@@ -807,7 +867,8 @@ class SearchBarContainer extends StatelessWidget {
                   color: const Color.fromARGB(174, 0, 0, 0),
                   fontSize: MediaQuery.of(context).textScaleFactor * 15, // Scalable font size,
                   fontWeight: FontWeight.w400),
-              suffixIcon: !controller.showBlankSearchSuggestions.value
+              //suffixIcon: !controller.showBlankSearchSuggestions.value
+              suffixIcon: controller.searchbarController.text.isNotEmpty
                   ? IconButton(
                       onPressed: controller.search.value
                           ? () {
@@ -823,7 +884,7 @@ class SearchBarContainer extends StatelessWidget {
                               controller.showBlankSearchSuggestions.value =
                                   true;
                             },
-                      icon: const Icon(Icons.search, color: black),
+                      icon: const Icon(Icons.clear, color: black),
                     )
                   : IconButton(
                       onPressed: () {
@@ -838,6 +899,71 @@ class SearchBarContainer extends StatelessWidget {
           focusNode: controller.searchBarFocusNode,
           style: const TextStyle(color: black),
           cursorColor: black26,
+        ),
+      ),
+    );
+  }
+}
+
+
+class _HoverableChip extends StatefulWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _HoverableChip({
+    required this.label,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_HoverableChip> createState() => _HoverableChipState();
+}
+
+class _HoverableChipState extends State<_HoverableChip> {
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (_) {
+        // Mimic hover effect when user taps down
+        setState(() => isHovered = true);
+      },
+      onTapCancel: () {
+        // Reset hover effect if user cancels the gesture
+        setState(() => isHovered = false);
+      },
+      onTapUp: (_) {
+        // Reset hover effect after completing the tap
+        setState(() => isHovered = false);
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: isHovered ? primary.withOpacity(0.8) : Colors.grey[200],
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: isHovered
+              ? [
+            BoxShadow(
+              color: Colors.teal.withOpacity(0.5),
+              blurRadius: 8,
+              spreadRadius: 1,
+            ),
+          ]
+              : [],
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        child: Text(
+          textAlign: TextAlign.center,
+          widget.label,
+          style: TextStyle(
+            fontSize: 12,
+            color: isHovered ? white : black54,
+            fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
+          ),
         ),
       ),
     );
