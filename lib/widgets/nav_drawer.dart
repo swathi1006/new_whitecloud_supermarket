@@ -15,7 +15,8 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Obx(()=>Column(
+      child: Obx(
+        () => Column(
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(color: primary),
@@ -26,17 +27,24 @@ class NavDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.grey, width: 2)),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.grey, width: 2)),
                         padding: const EdgeInsets.all(2),
                         child: CircleAvatar(
                           radius: 40,
-                          backgroundImage: myAccountController.user.value != null && myAccountController.user.value!.profileImg != ''
+                          backgroundImage: myAccountController.user.value !=
+                                      null &&
+                                  myAccountController.user.value!.profileImg !=
+                                      ''
                               ? Image.network(
-                            myAccountController.user.value!.profileImg,
+                                  myAccountController.user.value!.profileImg,
                                   fit: BoxFit.cover,
                                 ).image
                               : null,
-                          child: myAccountController.user.value != null && myAccountController.user.value!.profileImg != ''
+                          child: myAccountController.user.value != null &&
+                                  myAccountController.user.value!.profileImg !=
+                                      ''
                               ? null
                               : Container(
                                   decoration: const BoxDecoration(
@@ -59,11 +67,29 @@ class NavDrawer extends StatelessWidget {
                                 ),
                         ),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left :10.0),
+                      //   child: Text(
+                      //     myAccountController.user.value != null && myAccountController.user.value!.name != ''
+                      //     ? myAccountController.user.value!.name
+                      //     : UserName,
+                      //     style: const TextStyle(color: white, fontSize: 20, fontWeight: FontWeight.w500),
+                      //   ),
+                      // ),
                       Padding(
-                        padding: const EdgeInsets.only(left :10.0),
+                        padding: const EdgeInsets.only(left: 10.0),
                         child: Text(
-                          myAccountController.user.value != null && myAccountController.user.value!.name != '' ? myAccountController.user.value!.name : UserName,
-                          style: const TextStyle(color: white, fontSize: 20, fontWeight: FontWeight.w500),
+                          myAccountController.user.value != null &&
+                                  myAccountController.user.value!.name != ''
+                              ? myAccountController.user.value!.name
+                              : (UserName.isNotEmpty
+                                  ? UserName
+                                  : 'Guest'), // Fallback to UserName or "Guest"
+                          style: const TextStyle(
+                            color: white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ],
@@ -99,7 +125,13 @@ class NavDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: SvgPicture.asset('assets/logo/whitelogo.svg',height: 18,width: 18,color:controller.selectedIndex.value == 3?primary:Colors.grey ,),
+              leading: SvgPicture.asset(
+                'assets/logo/whitelogo.svg',
+                height: 18,
+                width: 18,
+                color:
+                    controller.selectedIndex.value == 3 ? primary : Colors.grey,
+              ),
               title: const Text('My Cart'),
               selected: controller.selectedIndex.value == 3,
               selectedTileColor: Colors.grey.withOpacity(0.2),

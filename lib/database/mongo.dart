@@ -273,6 +273,7 @@
 // }
 
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../modal/order.dart';
 import '../modal/invoice.dart';
 import '../modal/product.dart';
@@ -305,6 +306,8 @@ class MongoDB {
       collection_users = db!.collection('users');
       collection_agents = db!.collection('agents'); // Add agents collection
 
+       print('MongoDB connection successful!');
+
       return {
         'db': db,
         'collection_items': collection_items,
@@ -316,10 +319,35 @@ class MongoDB {
     }
   }
 
-  // Other methods (unchanged)
-  static getBanners() async {
+  // // Other methods (unchanged)
+  // static getBanners() async {
+  //   globalBanners = await collection_banners!.find().toList();
+  // }
+
+  static Future<void> getBanners() async {
+  try {
+    print('Fetching banners from MongoDB...');
+    
+    // Fetch all banners from the collection
     globalBanners = await collection_banners!.find().toList();
+    
+    // Log the number of banners fetched
+    print('Number of banners fetched: ${globalBanners.length}');
+    
+    // Log the banner data for debugging
+    if (globalBanners.isNotEmpty) {
+      globalBanners.forEach((banner) {
+        print('Banner: ${banner['banner_img']}');
+      });
+    } else {
+      print('No banners found in the collection.');
+    }
+  } catch (e) {
+    // Log any errors during the fetching process
+    print('Error fetching banners: $e');
   }
+}
+
 
   static getTags() async {
     var collection_tags = db!.collection("tags");
@@ -335,6 +363,26 @@ class MongoDB {
     return items;
   }
 
+
+
+  // static Future<List<Map<String, dynamic>>> getCategoryItems(
+  //     String category) async {
+  //   var items = await collection_items!.aggregateToStream([
+  //     {
+  //       '\$match': {
+  //         'item_catogory': {
+  //           '\$in': [category]
+  //         }
+  //       }
+  //     },
+  //     {
+  //       '\$sample': {'size': 6}
+  //     }
+  //   ]).toList();
+  //   return items;
+  // }
+  //new one below
+
   static Future<List<Map<String, dynamic>>> getCategoryItems(
       String category) async {
     var items = await collection_items!.aggregateToStream([
@@ -345,12 +393,31 @@ class MongoDB {
           }
         }
       },
-      {
-        '\$sample': {'size': 6}
-      }
+      // {
+        // '\$sample': {'size': 6},
+        // '\$limit':17
+      // }
     ]).toList();
     return items;
   }
+
+  static Future<List<Map<String, dynamic>>> getNonCategoryItems(
+      String category) async {
+    var items = await collection_items!.aggregateToStream([
+      {
+        '\$match': {
+         'item_catogory': {
+          '\$not': {'\$in': [category]}
+        }
+        }
+      },
+      {
+        '\$sample': {'size': 6},
+      }
+    ]).toList();
+    // print('Non-category items: ${items.length}');
+    return items;
+}
 
   static Future<List<Map<String, dynamic>>> getTagItems(String tag) async {
     var items = await collection_items!.aggregateToStream([
@@ -377,47 +444,137 @@ class MongoDB {
   //   globalusers = (await collection_users?.findOne(where.eq('phone', phone)))!;
   //   UserId = globalusers['_id'].toHexString();
   //   UserName = globalusers['name'];
+
+  //    // Save username to SharedPreferences
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // await prefs.setString('username', UserName);
+
+  // print('User fetched from DB: ${globalusers['name']}');
+
   //   getCart();
   //   getAddress();
   //   getOrder();
   // }
 
-static Map<String, dynamic> globalusers = {}; // Initialize as an empty map
-
-static Future<void> getuser(String phone) async {
+  // testing one below
+  static Future<void> getuser(String phone) async {
   try {
-    // Ensure the collection is not null
-    if (collection_users == null) {
-      throw Exception("Database collection 'collection_users' is null. Check your MongoDB connection.");
-    }
+    print('Fetching user from database for phone: $phone'); // Debug log
 
-    // Query the user based on the phone number
-    var result = await collection_users?.findOne(where.eq('phone', phone));
+    // Query the database
+    globalusers = (await collection_users?.findOne(where.eq('phone', phone)))!;
+    UserId = globalusers['_id'].toHexString();
+    UserName = globalusers['name'];
 
-    // Handle case where no user is found
-    if (result == null) {
-      throw Exception("No user found with phone number: $phone");
-    }
+    // Save username to SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', UserName);
 
-    // Assign global user data
-    globalusers = result;
-    UserId = globalusers['_id']?.toHexString() ?? "Unknown User ID";
-    UserName = globalusers['name'] ?? "Unknown User";
+    print('User fetched from DB: $UserName'); // Log user name
+    print('User ID: $UserId'); // Log user ID
 
-    // Call dependent functions safely
-    getCart();
-    getAddress();
-    getOrder();
+    // Fetch other data
+    await getCart();
+    await getAddress();
+    await getOrder();
   } catch (e) {
-    // Log and handle the error gracefully
-    print("Error in getuser: $e");
-
-    // Reset global variables to avoid using invalid data
-    globalusers = {}; // Clear the map safely by reinitializing
-    UserId = "Unknown";
-    UserName = "Unknown";
+    print('Error in getuser: $e'); // Log any error
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// static Map<String, dynamic> globalusers = {}; // Initialize as an empty map
+
+// static Future<void> getuser(String phone) async {
+//   try {
+//     // Ensure the collection is not null
+//     if (collection_users == null) {
+//       throw Exception("Database collection 'collection_users' is null. Check your MongoDB connection.");
+//     }
+
+//     // Query the user based on the phone number
+//     var result = await collection_users?.findOne(where.eq('phone', phone));
+
+//     // Handle case where no user is found
+//     if (result == null) {
+//       throw Exception("No user found with phone number: $phone");
+//     }
+
+//     // Assign global user data
+//     globalusers = result;
+//     UserId = globalusers['_id']?.toHexString() ?? "Unknown User ID";
+//     UserName = globalusers['name'] ?? "Unknown User";
+
+//     // Call dependent functions safely
+//     getCart();
+//     getAddress();
+//     getOrder();
+//   } catch (e) {
+//     // Log and handle the error gracefully
+//     print("Error in getuser: $e");
+
+//     // Reset global variables to avoid using invalid data
+//     globalusers = {}; // Clear the map safely by reinitializing
+//     UserId = "Unknown";
+//     UserName = "Unknown";
+//   }
+// }
+
+//testing one below
+// static Map<String, dynamic> globalusers = {}; // Initialize as an empty map
+
+// static Future<void> getuser(String phone) async {
+//   try {
+//     // Ensure the collection is not null
+//     if (collection_users == null) {
+//       throw Exception("Database collection 'collection_users' is null. Check your MongoDB connection.");
+//     }
+
+//     // Query the user based on the phone number
+//     var result = await collection_users?.findOne(where.eq('phone', phone));
+
+//     // Handle case where no user is found
+//     if (result == null) {
+//       throw Exception("No user found with phone number: $phone");
+//     }
+
+//     // Assign global user data
+//     globalusers = result;
+//     UserId = globalusers['_id']?.toHexString() ?? "Unknown User ID";
+//     UserName = globalusers['name'] ?? "Unknown User";
+
+//     // Call dependent functions safely
+//     await getCart();
+//     await getAddress();
+//     await getOrder();
+//   } catch (e) {
+//     // Log and handle the error gracefully
+//     print("Error in getuser: $e");
+
+//     // Reset global variables to avoid using invalid data
+//     globalusers = {}; // Clear the map safely by reinitializing
+//     UserId = "Unknown";
+//     UserName = "Unknown";
+//   }
+// }
+
 
 
   static getCart() async {

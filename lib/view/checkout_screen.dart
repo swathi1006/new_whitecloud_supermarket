@@ -26,7 +26,6 @@ class CheckoutScreen extends StatelessWidget {
   final MyAccountController myAccountController = Get.find();
   final CheckoutController checkoutController = Get.put(CheckoutController());
 
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -63,7 +62,7 @@ class CheckoutScreen extends StatelessWidget {
                   height: 36,
                   width: 25,
                   child: Obx(
-                        () => Stack(
+                    () => Stack(
                       children: [
                         Align(
                           alignment: Alignment.center,
@@ -80,8 +79,13 @@ class CheckoutScreen extends StatelessWidget {
                             alignment: Alignment.topRight,
                             child: Container(
                               padding: const EdgeInsets.all(4),
-                              decoration: const BoxDecoration(color: secondary,shape: BoxShape.circle),
-                              child: Text('${cartController.cart.length}',style: const TextStyle(fontSize: 12,color: Colors.black,fontWeight: FontWeight.bold)),
+                              decoration: const BoxDecoration(
+                                  color: secondary, shape: BoxShape.circle),
+                              child: Text('${cartController.cart.length}',
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
                       ],
@@ -103,7 +107,11 @@ class CheckoutScreen extends StatelessWidget {
                   child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: checkoutController.pageController,
-                    children: [addressPage(), orderDetailsPage(), paymentPage()],
+                    children: [
+                      addressPage(),
+                      orderDetailsPage(),
+                      paymentPage()
+                    ],
                   ),
                 ),
                 if (checkoutController.pageIndex.value == 0)
@@ -112,7 +120,8 @@ class CheckoutScreen extends StatelessWidget {
                       if (myAccountController.defaultAddress.value != null) {
                         checkoutController.nextStep();
                       } else {
-                        createToast('Please Select Delivery Address',Colors.black);
+                        createToast(
+                            'Please Select Delivery Address', Colors.black);
                       }
                     },
                     child: Container(
@@ -137,7 +146,8 @@ class CheckoutScreen extends StatelessWidget {
                           fit: FlexFit.tight,
                           flex: 1,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -183,7 +193,8 @@ class CheckoutScreen extends StatelessWidget {
                           fit: FlexFit.tight,
                           flex: 1,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -202,32 +213,50 @@ class CheckoutScreen extends StatelessWidget {
                           flex: 1,
                           child: InkWell(
                             onTap: () async {
-                              List<Item> items = cartController.cart.map((product) => Item(
-                                product.id,
-                                product.item_name,
-                                product.item_image,
-                                product.cartCount.value,
-                                double.parse(product.offer_price),
-                              )).toList();
+                              List<Item> items = cartController.cart
+                                  .map((product) => Item(
+                                        product.id,
+                                        product.item_name,
+                                        product.item_image,
+                                        product.cartCount.value,
+                                        double.parse(product.offer_price),
+                                      ))
+                                  .toList();
 
-                              List<ItemInvoice> itemInvoice = cartController.cart.map((product) => ItemInvoice(
-                                product.id,
-                                product.item_code,
-                                product.item_name,
-                                double.parse(product.item_mrp),
-                                double.parse(product.offer_price),
-                                double.parse(product.discount),
-                                product.cartCount.value,
-                              )).toList();
+                              List<ItemInvoice> itemInvoice =
+                                  cartController.cart
+                                      .map((product) => ItemInvoice(
+                                            product.id,
+                                            product.item_code,
+                                            product.item_name,
+                                            double.parse(product.item_mrp),
+                                            double.parse(product.offer_price),
+                                            double.parse(product.discount),
+                                            product.cartCount.value,
+                                          ))
+                                      .toList();
 
-                              String userName = myAccountController.defaultAddress.value!.name;
-                              String mobile = myAccountController.defaultAddress.value!.mobile;
-                              String address = myAccountController.defaultAddress.toString();
+                              String userName = myAccountController
+                                  .defaultAddress.value!.name;
+                              String mobile = myAccountController
+                                  .defaultAddress.value!.mobile;
+                              String address =
+                                  myAccountController.defaultAddress.toString();
                               double total = cartController.cartTotal.value;
                               var time = DateTime.now();
-                              String id = time.millisecondsSinceEpoch.toString();
-                              myAccountController.addOrders(id, items, total, time);
-                              myAccountController.addInvoice(id, UserId, userName, mobile, address, itemInvoice, total, time);
+                              String id =
+                                  time.millisecondsSinceEpoch.toString();
+                              myAccountController.addOrders(
+                                  id, items, total, time);
+                              myAccountController.addInvoice(
+                                  id,
+                                  UserId,
+                                  userName,
+                                  mobile,
+                                  address,
+                                  itemInvoice,
+                                  total,
+                                  time);
                               deleteCartItems();
                               checkoutController.nextStep();
                             },
@@ -280,14 +309,21 @@ class CheckoutScreen extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: checkoutController.pageIndex.value == 0 ? secondary : primary),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: checkoutController.pageIndex.value == 0
+                      ? secondary
+                      : primary),
               child: Text(
                 '1',
-                style: TextStyle(color: checkoutController.pageIndex.value == 0 ? black : white),
+                style: TextStyle(
+                    color: checkoutController.pageIndex.value == 0
+                        ? black
+                        : white),
               ),
             ),
-            SizedBox(width: Get.width * 0.2, child: const Divider(color: black26)),
+            SizedBox(
+                width: Get.width * 0.2, child: const Divider(color: black26)),
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -300,10 +336,14 @@ class CheckoutScreen extends StatelessWidget {
               child: Text(
                 '2',
                 style: TextStyle(
-                    color: checkoutController.pageIndex.value == 1 || checkoutController.pageIndex.value == 0 ? black : white),
+                    color: checkoutController.pageIndex.value == 1 ||
+                            checkoutController.pageIndex.value == 0
+                        ? black
+                        : white),
               ),
             ),
-            SizedBox(width: Get.width * 0.2, child: const Divider(color: black26)),
+            SizedBox(
+                width: Get.width * 0.2, child: const Divider(color: black26)),
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -316,7 +356,10 @@ class CheckoutScreen extends StatelessWidget {
               child: Text(
                 '3',
                 style: TextStyle(
-                    color: checkoutController.pageIndex.value == 2 || checkoutController.pageIndex.value < 2 ? black : white),
+                    color: checkoutController.pageIndex.value == 2 ||
+                            checkoutController.pageIndex.value < 2
+                        ? black
+                        : white),
               ),
             ),
           ],
@@ -384,7 +427,8 @@ class CheckoutScreen extends StatelessWidget {
                   children: [
                     Text(
                       myAccountController.defaultAddress.value!.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     Text(
                       '${myAccountController.defaultAddress.value!.addressLine1}, ${myAccountController.defaultAddress.value!.addressLine2}',
@@ -403,12 +447,16 @@ class CheckoutScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white), // Set the background color to red
+                      backgroundColor: MaterialStateProperty.all(
+                          Colors.white), // Set the background color to red
                     ),
                     onPressed: () {
                       myAccountController.showMyAddressesOverLay();
                     },
-                    child: const Text('Edit',style: TextStyle(color: primary),)),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(color: primary),
+                    )),
               ],
             ),
           )
@@ -443,12 +491,13 @@ class CheckoutScreen extends StatelessWidget {
                     myAccountController.showAddAddressDialog();
                   },
                   style: ButtonStyle(
-                      shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                              bottomEnd: Radius.circular(0),
-                              topStart: Radius.circular(0),
-                              topEnd: Radius.circular(20),
-                              bottomStart: Radius.circular(20))))),
+                      shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.only(
+                                  bottomEnd: Radius.circular(0),
+                                  topStart: Radius.circular(0),
+                                  topEnd: Radius.circular(20),
+                                  bottomStart: Radius.circular(20))))),
                   child: const Text('Add Address'),
                 ),
               ],
@@ -482,7 +531,8 @@ class CheckoutScreen extends StatelessWidget {
               children: [
                 Text(
                   myAccountController.defaultAddress.value!.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 Text(
                   '${myAccountController.defaultAddress.value!.addressLine1}, ${myAccountController.defaultAddress.value!.addressLine2}',
@@ -498,12 +548,16 @@ class CheckoutScreen extends StatelessWidget {
                   '+91${myAccountController.defaultAddress.value!.mobile}',
                 ),
                 ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                    ),
                     onPressed: () {
                       myAccountController.showMyAddressesOverLay();
                     },
-                    child: const Text('Change Address',style: TextStyle(color: primary,))),
+                    child: const Text('Change Address',
+                        style: TextStyle(
+                          color: primary,
+                        ))),
               ],
             ),
           ),
@@ -525,7 +579,10 @@ class CheckoutScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
-                  decoration: const InputDecoration(border: OutlineInputBorder(), isDense: true, labelText: 'Coupon Code'),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      isDense: true,
+                      labelText: 'Coupon Code'),
                   enabled: false,
                 ),
               ),
@@ -588,135 +645,154 @@ class CheckoutScreen extends StatelessWidget {
 
   Widget itemCard(Product product) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-      child: Container(
-        margin: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: Colors.white, // Change this to your desired color
-          borderRadius: BorderRadius.circular(10), // Change this to your desired border radius
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5), // Change this to your desired shadow color
-              spreadRadius: 1,
-              blurRadius: 2,
-              offset: const Offset(0, 3), // Change this to your desired offset
-            ),
-          ],
-        ),
-        child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      flex: 8,
-                      fit: FlexFit.tight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              product.item_name,
-                              style: const TextStyle(color:primary, fontSize: 15, fontWeight: FontWeight.w400),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 5),
-                            Obx(() => Text(
-                              '₹${(double.parse(product.offer_price) * int.parse(product.cartCount.value.toString()))}/-',                          style: const TextStyle(color: Colors.green, fontSize: 20),
-                            )),
-                            const SizedBox(height: 10),
-                            Text(
-                              '₹${product.item_mrp}',
-                              style: const TextStyle(color: grey, decoration: TextDecoration.lineThrough, fontSize: 16),
-                            ),
-                            Obx(() => Text('Saving ₹${((double.parse(product.item_mrp) - double.parse(product.offer_price)).toDouble())*int.parse(product.cartCount.value.toString())}',
-                              style: const TextStyle(color: green, fontSize: 16),
-                            )),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 4,
-                      fit: FlexFit.tight,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+        child: Container(
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.white, // Change this to your desired color
+            borderRadius: BorderRadius.circular(
+                10), // Change this to your desired border radius
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(
+                    0.5), // Change this to your desired shadow color
+                spreadRadius: 1,
+                blurRadius: 2,
+                offset:
+                    const Offset(0, 3), // Change this to your desired offset
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 8,
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 8),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          (product.item_image.toLowerCase() == "imgurl")
-                              ? Image.asset(
-                                  'assets/images/garam_masala.png',
-                                  height: 100,
-                                  width: 100,
-                                )
-                              : Image.memory(base64Decode(product.item_image),
-                                  width: 100,
-                                  height: 100,
-                                ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButtonFormField<int>(
-                              isDense: true,
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 1,
-                                  child: Text('Qty: 1'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 2,
-                                  child: Text('Qty: 2'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 3,
-                                  child: Text('Qty: 3'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 4,
-                                  child: Text('Qty: 4'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 5,
-                                  child: Text('Qty: 5'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 6,
-                                  child: Text('Qty: 6'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 7,
-                                  child: Text('Qty: 7'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 8,
-                                  child: Text('Qty: 8'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 9,
-                                  child: Text('Qty: 9'),
-                                ),
-                              ],
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Qty',
-                                  contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 12)),
-                              onChanged: (value) {
-                                product.cartCount.value = value!;
-                                cartController.calculateCartTotal();
-                              },
-                              value: product.cartCount.value,
-                            ),
+                          Text(
+                            product.item_name,
+                            style: const TextStyle(
+                                color: primary,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          const SizedBox(height: 5),
+                          Obx(() => Text(
+                                '₹${(double.parse(product.offer_price) * int.parse(product.cartCount.value.toString()))}/-',
+                                style: const TextStyle(
+                                    color: Colors.green, fontSize: 20),
+                              )),
+                          const SizedBox(height: 10),
+                          Text(
+                            '₹${product.item_mrp}',
+                            style: const TextStyle(
+                                color: grey,
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 16),
+                          ),
+                          Obx(() => Text(
+                                'Saving ₹${((double.parse(product.item_mrp) - double.parse(product.offer_price)).toDouble()) * int.parse(product.cartCount.value.toString())}',
+                                style:
+                                    const TextStyle(color: green, fontSize: 16),
+                              )),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-      )
+                  ),
+                  Flexible(
+                    flex: 4,
+                    fit: FlexFit.tight,
+                    child: Column(
+                      children: [
+                        (product.item_image.toLowerCase() == "imgurl")
+                            ? Image.asset(
+                                'assets/images/garam_masala.png',
+                                height: 100,
+                                width: 100,
+                              )
+                            : Image.network(
+                                product.item_image,
+                                width: 100,
+                                height: 100,
+                              ),
 
-    );
+                        //  Image.memory(base64Decode(product.item_image),
+                        //     width: 100,
+                        //     height: 100,
+                        //   ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButtonFormField<int>(
+                            isDense: true,
+                            items: const [
+                              DropdownMenuItem(
+                                value: 1,
+                                child: Text('Qty: 1'),
+                              ),
+                              DropdownMenuItem(
+                                value: 2,
+                                child: Text('Qty: 2'),
+                              ),
+                              DropdownMenuItem(
+                                value: 3,
+                                child: Text('Qty: 3'),
+                              ),
+                              DropdownMenuItem(
+                                value: 4,
+                                child: Text('Qty: 4'),
+                              ),
+                              DropdownMenuItem(
+                                value: 5,
+                                child: Text('Qty: 5'),
+                              ),
+                              DropdownMenuItem(
+                                value: 6,
+                                child: Text('Qty: 6'),
+                              ),
+                              DropdownMenuItem(
+                                value: 7,
+                                child: Text('Qty: 7'),
+                              ),
+                              DropdownMenuItem(
+                                value: 8,
+                                child: Text('Qty: 8'),
+                              ),
+                              DropdownMenuItem(
+                                value: 9,
+                                child: Text('Qty: 9'),
+                              ),
+                            ],
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Qty',
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 12)),
+                            onChanged: (value) {
+                              product.cartCount.value = value!;
+                              cartController.calculateCartTotal();
+                            },
+                            value: product.cartCount.value,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget paymentPage() {

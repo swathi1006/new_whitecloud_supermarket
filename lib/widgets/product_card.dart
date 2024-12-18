@@ -257,12 +257,13 @@ class _ProductCardState extends State<ProductCard> {*/
                                 width: MediaQuery.of(context).size.width *
                                     0.2, // Responsive width
                               )
-                            : Image.memory(
-                                base64Decode(product.item_image),
+                            : Image.network(
+                                product.item_image,
                                 height:
                                     MediaQuery.of(context).size.height * 0.1,
                                 width: MediaQuery.of(context).size.width * 0.2,
                               ),
+                              //newly added
                       ],
                     ),
                     Container(

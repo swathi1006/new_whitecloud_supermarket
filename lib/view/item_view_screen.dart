@@ -255,46 +255,52 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                 // ),
 
                 Expanded(
-  child: GestureDetector(
-    onTap: controller.selectedProduct.value!.instock_outstock_indication == 0
-      ? () {
-          createToast('This product is temporarily out of stock', Colors.red);
-        }
-      : () {
-          // Ensure the cart count is at least 1 before adding to cart
-          cartController.addToCart(controller.selectedProduct.value!);
-          createToast('Product added to cart successfully', Colors.green);
-          controller.update(); // Refresh UI after adding to cart
-        },
-    child: Container(
-      color: secondary,
-      alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/logo/whitelogo.svg',
-              height: 14,
-              color: white,
-            ),
-            const SizedBox(width: 5),
-            const Text(
-              'Add to Cart',
-              style: TextStyle(
-                color: white,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  ),
-),
-
+                  child: GestureDetector(
+                    onTap: controller.selectedProduct.value!
+                                .instock_outstock_indication ==
+                            0
+                        ? () {
+                            createToast(
+                                'This product is temporarily out of stock',
+                                Colors.red);
+                          }
+                        : () {
+                            // Ensure the cart count is at least 1 before adding to cart
+                            cartController
+                                .addToCart(controller.selectedProduct.value!);
+                            createToast('Product added to cart successfully',
+                                Colors.green);
+                            controller
+                                .update(); // Refresh UI after adding to cart
+                          },
+                    child: Container(
+                      color: secondary,
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/logo/whitelogo.svg',
+                              height: 14,
+                              color: white,
+                            ),
+                            const SizedBox(width: 5),
+                            const Text(
+                              'Add to Cart',
+                              style: TextStyle(
+                                color: white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
 
                 // Expanded(
                 //   child: GestureDetector(
@@ -368,11 +374,17 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(
                                         20.0), // Adjust the value as needed
-                                    child: Image.memory(
-                                      base64Decode(controller
-                                          .selectedProduct.value!.item_image),
+                                    child: Image.network(
+                                      controller
+                                          .selectedProduct.value!.item_image,
                                       fit: BoxFit.fitWidth,
                                     ),
+
+                                    //  Image.memory(
+                                    //   base64Decode(controller
+                                    //       .selectedProduct.value!.item_image),
+                                    //   fit: BoxFit.fitWidth,
+                                    // ),
                                   ),
                                 ),
                               ),
