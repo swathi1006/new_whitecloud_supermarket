@@ -1,38 +1,83 @@
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:whitesupermarketapp/util/theme.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
+import 'package:whitesupermarketapp/util/theme.dart';
 import 'package:whitesupermarketapp/view/splash_screen.dart';
+import 'package:whitesupermarketapp/widgets/fallback_ui.dart';
+import 'database/global.dart';
+import 'database/mongo.dart';
+// Future<void> main() async {
+//   Map<String, dynamic> dbAndCollection = await MongoDB.connect();
+//   db = dbAndCollection['db'];
+//   collection_items = dbAndCollection['collection_items'];
+//   collection_banners = dbAndCollection['collection_banners'];
+//   runApp(const MyApp());
+//   SystemChrome.setPreferredOrientations([
+//     DeviceOrientation.portraitUp,
+//   ]);
+// }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures binding is initialized for async operations
+  bool databaseConnected = false;
 
-  // Lock device orientation
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  // Run the app
-  runApp(const MyApp());
+  try {
+    // Attempt to connect to MongoDB
+    Map<String, dynamic>? dbAndCollection = await MongoDB.connect();
+    if (dbAndCollection == null) {
+      // Handle connection failure gracefully
+      print('Failed to connect to MongoDB.');
+      // runApp(const ConnectionErrorApp()); // Show a fallback app or UI
+    } else{
+       // Assign the connected database and collections
+      db = dbAndCollection['db'];
+      collection_items = dbAndCollection['collection_items'];
+      collection_banners = dbAndCollection['collection_banners'];
+      databaseConnected = true;
+    }
+   
+  } 
+  catch (e) {
+    print('An unexpected error occurred during database initialization: $e');
+    // runApp(const ConnectionErrorApp()); // Show a fallback app or UI
+    
+  }
+  // Proceed with the main application if no errors
+  // runApp(const MyApp());
+   runApp(
+    databaseConnected
+        ? const MyApp() // If connected to the database, launch the main app
+        :  MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: myTheme.copyWith(
+              colorScheme: myTheme.colorScheme.copyWith(secondary: secondary),
+            ),
+            home:  const OfflineFallbackScreen(),
+        ), // Otherwise, show the fallback screen
+  );
+   await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //Get.put(ItemListViewController());
     return GetMaterialApp(
       title: 'White Supermarket',
       debugShowCheckedModeBanner: false,
-      theme: myTheme.copyWith(colorScheme: myTheme.colorScheme.copyWith(secondary: secondary)),
+       theme: myTheme.copyWith(colorScheme: myTheme.colorScheme.copyWith(secondary: secondary)),
       home: SplashScreen(),
-    );
+       );
   }
 }
-//very new one above
-
-
-
-
 
 
 

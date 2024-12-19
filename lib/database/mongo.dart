@@ -296,28 +296,43 @@ class MongoDB {
   //     'collection_banners': collection_banners
   //   };
   // }
-   static Future<Map<String, dynamic>?> connect() async {
-    try {
-      db = await Db.create(MONGO_URL);
-      await db!.open();
+  //  static Future<Map<String, dynamic>?> connect() async {
+  //   try {
+  //     db = await Db.create(MONGO_URL);
+  //     await db!.open();
       
-      collection_items = db!.collection(COLLECTION_ITEMS);
-      collection_banners = db!.collection(COLLECTION_BANNERS);
-      collection_users = db!.collection('users');
-      collection_agents = db!.collection('agents'); // Add agents collection
+  //     collection_items = db!.collection(COLLECTION_ITEMS);
+  //     collection_banners = db!.collection(COLLECTION_BANNERS);
+  //     collection_users = db!.collection('users');
+  //     collection_agents = db!.collection('agents'); // Add agents collection
 
-       print('MongoDB connection successful!');
+  //      print('MongoDB connection successful!');
 
-      return {
-        'db': db,
-        'collection_items': collection_items,
-        'collection_banners': collection_banners,
-      };
-    } catch (e) {
-      print('Error connecting to MongoDB: $e');
-      return null;
-    }
+  //     return {
+  //       'db': db,
+  //       'collection_items': collection_items,
+  //       'collection_banners': collection_banners,
+  //     };
+  //   } catch (e) {
+  //     print('Error connecting to MongoDB: $e');
+  //     return null;
+  //   }
+  // }
+
+  static Future<Map<String, dynamic>> connect() async {
+    db = await Db.create(MONGO_URL);
+    await db!.open();
+    var collection_items = db!.collection(COLLECTION_ITEMS);
+    var collection_banners = db!.collection(COLLECTION_BANNERS);
+    collection_users = db!.collection('users');
+    collection_agents = db!.collection('agents'); // Add agents collection
+    return {
+      'db': db,
+      'collection_items': collection_items,
+      'collection_banners': collection_banners
+    };
   }
+
 
   // // Other methods (unchanged)
   // static getBanners() async {
@@ -457,31 +472,39 @@ class MongoDB {
   // }
 
   // testing one below
-  static Future<void> getuser(String phone) async {
-  try {
-    print('Fetching user from database for phone: $phone'); // Debug log
+//   static Future<void> getuser(String phone) async {
+//   try {
+//     print('Fetching user from database for phone: $phone'); // Debug log
 
-    // Query the database
+//     // Query the database
+//     globalusers = (await collection_users?.findOne(where.eq('phone', phone)))!;
+//     UserId = globalusers['_id'].toHexString();
+//     UserName = globalusers['name'];
+
+//     // Save username to SharedPreferences
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setString('username', UserName);
+
+//     print('User fetched from DB: $UserName'); // Log user name
+//     print('User ID: $UserId'); // Log user ID
+
+//     // Fetch other data
+//     await getCart();
+//     await getAddress();
+//     await getOrder();
+//   } catch (e) {
+//     print('Error in getuser: $e'); // Log any error
+//   }
+// }
+
+ static getuser(String phone) async {
     globalusers = (await collection_users?.findOne(where.eq('phone', phone)))!;
     UserId = globalusers['_id'].toHexString();
     UserName = globalusers['name'];
-
-    // Save username to SharedPreferences
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', UserName);
-
-    print('User fetched from DB: $UserName'); // Log user name
-    print('User ID: $UserId'); // Log user ID
-
-    // Fetch other data
-    await getCart();
-    await getAddress();
-    await getOrder();
-  } catch (e) {
-    print('Error in getuser: $e'); // Log any error
-  }
-}
-
+    getCart();
+    getAddress();
+    getOrder();
+     }
 
 
 
