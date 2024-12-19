@@ -33,6 +33,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
     super.initState();
 
     controller.gridChildren.clear();
+    controller.gridChildrenOld.clear();
     controller.token.value = true;
   }
 
@@ -41,6 +42,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
     return WillPopScope(
       onWillPop: () async {
         controller.gridChildren.clear();
+        controller.gridChildrenOld.clear();
         controller.token.value = false;
         return true;
       },
@@ -673,7 +675,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                                                   ElevatedButton(
                                                       style: ButtonStyle(
                                                         backgroundColor:
-                                                            MaterialStateProperty
+                                                            WidgetStateProperty
                                                                 .all(Colors
                                                                     .white), // Set the background color to red
                                                       ),
@@ -787,7 +789,96 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                   ),
                 ),
               ),
+
+              // Similar Products Grid
               Obx(
+                    () {
+                  controller.sortByTags(controller.selectedProduct.value!.tags);
+                  return controller.gridChildren.isNotEmpty
+                      ? LiveSliverGrid.options(
+                    itemBuilder: buildAnimatedItem,
+                    controller: controller.scrollController,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 6 / 7),
+                    itemCount: controller.gridChildren.length,
+                    options: const LiveOptions(
+                      delay: Duration(milliseconds: 100),
+                      showItemInterval: Duration(milliseconds: 250),
+                      showItemDuration: Duration(milliseconds: 250),
+                      visibleFraction: 0.025,
+                      reAnimateOnVisibility: false,
+                    ),
+                  )
+                      : const SliverToBoxAdapter(
+                    child: SizedBox(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 20),
+                            CircularProgressIndicator(color: primary),
+                            //SizedBox(height: 20),
+                            //Text('Loading...'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              // Divider/Heading for "Other Products"
+              if (controller.gridChildren.isNotEmpty && controller.gridChildrenOld.isNotEmpty)
+                const SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      'Other Products',
+                      style: TextStyle(
+                        fontSize: 25,
+                       // fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+              // Other Products Grid
+              Obx(
+                    () {
+                  return controller.gridChildrenOld.isNotEmpty
+                      ? LiveSliverGrid.options(
+                    itemBuilder: buildAnimatedItem2,
+                    controller: controller.scrollController,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 6 / 7),
+                    itemCount: controller.gridChildrenOld.length,
+                    options: const LiveOptions(
+                      delay: Duration(milliseconds: 100),
+                      showItemInterval: Duration(milliseconds: 250),
+                      showItemDuration: Duration(milliseconds: 250),
+                      visibleFraction: 0.025,
+                      reAnimateOnVisibility: false,
+                    ),
+                  )
+                      : const SliverToBoxAdapter(
+                    child: SizedBox(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 20),
+                            //CircularProgressIndicator(color: primary),
+                            //SizedBox(height: 20),
+                            Text('Loading...'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+
+              /*
+        Obx(
                 () {
                   controller.sortByTags(controller.selectedProduct.value!.tags);
                   return controller.gridChildren.isNotEmpty
@@ -842,6 +933,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                         );
                 },
               ),
+            */
             ],
           ),
         ),
@@ -872,4 +964,31 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                   controller, true)),
         ),
       );
+
+  // Animated Builder for Other Products
+  Widget buildAnimatedItem2(
+      BuildContext context, int i, Animation<double> animation) =>
+      FadeTransition(
+        key: UniqueKey(),
+        opacity: Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(animation),
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, -0.1),
+            end: Offset.zero,
+          ).animate(animation),
+          child: Container(
+            color: greylight,
+            child: ProductCard(
+              controller.gridChildrenOld[i],
+              cartController,
+              controller,
+              true,
+            ),
+          ),
+        ),
+      );
+
 }

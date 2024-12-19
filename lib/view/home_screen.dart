@@ -16,6 +16,7 @@ import 'package:whitesupermarketapp/widgets/product_card.dart';
 import '../controller/cart_controller.dart';
 import '../controller/item_view_controller.dart';
 import '../database/global.dart';
+import 'item_view_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -465,7 +466,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding:
                                     const EdgeInsets.only(bottom: 10),
                                     height: Get.height *
-                                        0.4, // Fixed height for scrollable area
+                                        0.35, // Fixed height for scrollable area
                                     child: GridView.builder(
                                       gridDelegate:
                                       const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -752,10 +753,19 @@ class ImageCarousel extends StatelessWidget {
         return Builder(
           builder: (BuildContext context) {
             return GestureDetector(
-              onTap: () {
-                //print(banner["item_code"]);
-                var controller = Get.find<HomeController>();
-                controller.addProductToGrid(banner["item_code"]);
+              onTap: () async {
+                final itemCode = banner["item_code"];
+                final controller = Get.find<ItemViewController>();
+
+                // Fetch the product and navigate to item_view_screen
+                bool success = await controller.fetchAndSetProductByItemCode(itemCode);
+                if (success) {
+                  //Get.toNamed('/item_view');
+                  Get.to(() => ItemViewScreen());
+                }
+                // else {
+                //   Get.snackbar('Error', 'Product not found');
+                // }
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,

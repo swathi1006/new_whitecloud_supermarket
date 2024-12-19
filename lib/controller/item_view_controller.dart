@@ -17,6 +17,7 @@ class ItemViewController extends GetxController {
   RxList<Product> get products => homeController.products;
   final ScrollController scrollController = ScrollController();
   RxList<Product> gridChildren = RxList.empty();
+  RxList<Product> gridChildrenOld = RxList.empty();
   bool nextScroll = true;
   RxBool isAddressSaved = true.obs;
   RxBool token = false.obs;
@@ -242,7 +243,36 @@ class ItemViewController extends GetxController {
       }
 
     }//products.sort((a, b) => b.tags.toSet().intersection(tags.toSet()).length.compareTo(a.tags.toSet().intersection(tags.toSet()).length));
+    await fetchOtherProducts(category);
   }
+
+  Future<void> fetchOtherProducts(String category) async {
+    globalitems = await MongoDB.getNonCategoryItems(category); // New DB query
+    for (var item in globalitems) {
+      if (!item['item_catogory'].contains(category)) {
+        List<String> itemCategoryList = item['item_catogory'].cast<String>();
+        List<String> itemTagList = item['item_tags'].cast<String>();
+
+        Product newProduct = Product(
+          item['_id'].toHexString(),
+          item['item_code'],
+          item['item_name'],
+          item['item_mrp'].toString(),
+          item['offer_price'].toString(),
+          itemCategoryList,
+          item['discount'].toString(),
+          itemTagList,
+          item['item_image'],
+          item['stock_quantity'],
+          item['item_discription'],
+        );
+        if (!gridChildren.any((product) => product.id == newProduct.id)) {
+          gridChildrenOld.add(newProduct);
+        }
+      }
+    }
+  }
+
 
   shareApp() {
     Share.share('Check out this app https://example.com');
@@ -253,4 +283,46 @@ class ItemViewController extends GetxController {
       throw 'Could not launch tel:+918138066143';
     }
   }
+
+  /// Fetches product details by `itemCode`, sets `selectedProduct`, and returns true if successful.
+  Future<bool> fetchAndSetProductByItemCode(String itemCode) async {
+    try {
+      var item = await collection_items!.findOne(where.eq('item_code', itemCode));
+      if (item != null) {
+        List<String> itemCategoryList = [];
+        for (var itemCategory in item['item_catogory']) {
+          itemCategoryList.add(itemCategory);
+        }
+        List<String> itemTagList = [];
+        for (var itemTags in item['item_tags']) {
+          itemTagList.add(itemTags);
+        }
+
+        // Create a new Product instance
+        Product product = Product(
+          item['_id'].toHexString(),
+          item['item_code'],
+          item['item_name'],
+          item['item_mrp'].toString(),
+          item['offer_price'].toString(),
+          itemCategoryList,
+          item['discount'].toString(),
+          itemTagList,
+          item['item_image'],
+          item['stock_quantity'],
+          item['item_discription'],
+        );
+
+        // Set the selected product
+        selectedProduct.value = product;
+        return true;
+      } else {
+        return false; // Product not found
+      }
+    } catch (e) {
+      print("Error fetching product: $e");
+      return false; // Error occurred
+    }
+  }
+
 }
