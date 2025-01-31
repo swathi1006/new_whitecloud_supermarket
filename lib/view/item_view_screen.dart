@@ -114,18 +114,43 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
         floatingActionButton: DraggableFab(
           child: Container(
             decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: Colors.transparent),
+              shape: BoxShape.circle,
+              color: Colors.transparent,
+            ),
             padding:
                 const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 30),
-            child: FloatingActionButton(
-              backgroundColor: primary,
-              onPressed: () {
-                homeController.callHelp();
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100.0),
-              ),
-              child: const Icon(Icons.call, color: Colors.white),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // New FloatingActionButton
+                FloatingActionButton(
+                  heroTag:
+                          'add_button', // Unique heroTag for the first button
+                  backgroundColor: primary, // Customize the color
+                  onPressed: () {
+                    // Add functionality for the new button
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                  child: const Icon(Icons.format_list_numbered_outlined,
+                      color: Colors.white), // Customize the icon
+                ),
+                const SizedBox(height: 8), // Add spacing between the buttons
+                // Existing FloatingActionButton
+                FloatingActionButton(
+                  heroTag:
+                          'call_button', // Unique heroTag for the second button
+                  backgroundColor: primary,
+                  onPressed: () {
+                    homeController.callHelp();
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                  child: const Icon(Icons.call, color: Colors.white),
+                ),
+              ],
             ),
           ),
         ),
@@ -792,42 +817,43 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
 
               // Similar Products Grid
               Obx(
-                    () {
+                () {
                   controller.sortByTags(controller.selectedProduct.value!.tags);
                   return controller.gridChildren.isNotEmpty
                       ? LiveSliverGrid.options(
-                    itemBuilder: buildAnimatedItem,
-                    controller: controller.scrollController,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 6 / 7),
-                    itemCount: controller.gridChildren.length,
-                    options: const LiveOptions(
-                      delay: Duration(milliseconds: 100),
-                      showItemInterval: Duration(milliseconds: 250),
-                      showItemDuration: Duration(milliseconds: 250),
-                      visibleFraction: 0.025,
-                      reAnimateOnVisibility: false,
-                    ),
-                  )
+                          itemBuilder: buildAnimatedItem,
+                          controller: controller.scrollController,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 6 / 7),
+                          itemCount: controller.gridChildren.length,
+                          options: const LiveOptions(
+                            delay: Duration(milliseconds: 100),
+                            showItemInterval: Duration(milliseconds: 250),
+                            showItemDuration: Duration(milliseconds: 250),
+                            visibleFraction: 0.025,
+                            reAnimateOnVisibility: false,
+                          ),
+                        )
                       : const SliverToBoxAdapter(
-                    child: SizedBox(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 20),
-                            CircularProgressIndicator(color: primary),
-                            //SizedBox(height: 20),
-                            //Text('Loading...'),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                          child: SizedBox(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 20),
+                                  CircularProgressIndicator(color: primary),
+                                  //SizedBox(height: 20),
+                                  //Text('Loading...'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                 },
               ),
               // Divider/Heading for "Other Products"
-              if (controller.gridChildren.isNotEmpty && controller.gridChildrenOld.isNotEmpty)
+              if (controller.gridChildren.isNotEmpty &&
+                  controller.gridChildrenOld.isNotEmpty)
                 const SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
@@ -835,7 +861,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                       'Other Products',
                       style: TextStyle(
                         fontSize: 25,
-                       // fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -843,37 +869,38 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                 ),
               // Other Products Grid
               Obx(
-                    () {
+                () {
                   return controller.gridChildrenOld.isNotEmpty
                       ? LiveSliverGrid.options(
-                    itemBuilder: buildAnimatedItem2,
-                    controller: controller.scrollController,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 6 / 7),
-                    itemCount: controller.gridChildrenOld.length,
-                    options: const LiveOptions(
-                      delay: Duration(milliseconds: 100),
-                      showItemInterval: Duration(milliseconds: 250),
-                      showItemDuration: Duration(milliseconds: 250),
-                      visibleFraction: 0.025,
-                      reAnimateOnVisibility: false,
-                    ),
-                  )
+                          itemBuilder: buildAnimatedItem2,
+                          controller: controller.scrollController,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 6 / 7),
+                          itemCount: controller.gridChildrenOld.length,
+                          options: const LiveOptions(
+                            delay: Duration(milliseconds: 100),
+                            showItemInterval: Duration(milliseconds: 250),
+                            showItemDuration: Duration(milliseconds: 250),
+                            visibleFraction: 0.025,
+                            reAnimateOnVisibility: false,
+                          ),
+                        )
                       : const SliverToBoxAdapter(
-                    child: SizedBox(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 20),
-                            //CircularProgressIndicator(color: primary),
-                            //SizedBox(height: 20),
-                            Text('Loading...'),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                          child: SizedBox(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 20),
+                                  //CircularProgressIndicator(color: primary),
+                                  //SizedBox(height: 20),
+                                  Text('Loading...'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                 },
               ),
 
@@ -967,7 +994,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
 
   // Animated Builder for Other Products
   Widget buildAnimatedItem2(
-      BuildContext context, int i, Animation<double> animation) =>
+          BuildContext context, int i, Animation<double> animation) =>
       FadeTransition(
         key: UniqueKey(),
         opacity: Tween<double>(
@@ -990,5 +1017,5 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
           ),
         ),
       );
-
+      
 }

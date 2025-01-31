@@ -102,10 +102,10 @@ class MainScreen extends StatelessWidget {
                       onPressed: () {
                         homeController.callHelp();
                       },
-                      child: const Icon(Icons.call, color: Colors.white),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100.0),
                       ),
+                      child: const Icon(Icons.call, color: Colors.white),
                     ),
                   ),
                 )

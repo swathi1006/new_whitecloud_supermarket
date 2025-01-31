@@ -202,6 +202,7 @@ import 'package:whitesupermarketapp/controller/home_controller.dart';
 import 'package:whitesupermarketapp/controller/item_list_view_controller.dart';
 import 'package:whitesupermarketapp/controller/nav_drawer_controller.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
+import 'package:whitesupermarketapp/view/submit_list_screen.dart';
 import 'package:whitesupermarketapp/widgets/product_card.dart';
 import '../controller/cart_controller.dart';
 import '../controller/item_view_controller.dart';
@@ -305,18 +306,45 @@ class _ItemListViewScreenState extends State<ItemListViewScreen> {
         floatingActionButton: DraggableFab(
           child: Container(
             decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: Colors.transparent),
+              shape: BoxShape.circle,
+              color: Colors.transparent,
+            ),
             padding:
                 const EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 30),
-            child: FloatingActionButton(
-              backgroundColor: primary,
-              onPressed: () {
-                homeController.callHelp();
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100.0),
-              ),
-              child: const Icon(Icons.call, color: Colors.white),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // New FloatingActionButton
+                FloatingActionButton(
+                  heroTag:
+                          'add_button', // Unique heroTag for the first button
+                  backgroundColor: primary, // Customize the color
+                  onPressed: () {
+                     // Navigate to the new screen
+                  Get.to(() => const SubmitListScreen());
+                    // Add functionality for the new button
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                  child: const Icon(Icons.format_list_numbered_outlined,
+                      color: Colors.white), // Customize the icon
+                ),
+                const SizedBox(height: 8), // Add spacing between the buttons
+                // Existing FloatingActionButton
+                FloatingActionButton(
+                  heroTag:
+                          'call_button', // Unique heroTag for the second button
+                  backgroundColor: primary,
+                  onPressed: () {
+                    homeController.callHelp();
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                  child: const Icon(Icons.call, color: Colors.white),
+                ),
+              ],
             ),
           ),
         ),
