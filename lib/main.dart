@@ -1,9 +1,7 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:whitesupermarketapp/firebase_options.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
 import 'package:whitesupermarketapp/util/theme.dart';
 import 'package:whitesupermarketapp/view/splash_screen.dart';
@@ -23,6 +21,11 @@ import 'database/mongo.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures binding is initialized for async operations
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // ).then((value){
+  //   print("Firebase initialised successfully");
+  // }); // Initialize Firebase
   bool databaseConnected = false;
 
   try {

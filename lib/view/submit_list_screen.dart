@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
+import 'package:whitesupermarketapp/widgets/translated_card.dart';
 
 class SubmitListScreen extends StatefulWidget {
   const SubmitListScreen({super.key});
@@ -285,29 +286,7 @@ void _showImagePickerOptions() {
               ),
 
               // Card with text
-              Card(
-                elevation: 8.0, // Add elevation for a shadow effect
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: const Text(
-                    'Want to order products by submitting your list?',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+              const TranslationCard(),
 
               // Gap between card and camera icon
               SizedBox(

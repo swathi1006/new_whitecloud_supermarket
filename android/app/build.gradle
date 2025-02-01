@@ -1,15 +1,112 @@
-// New Plugins Block
+// // New Plugins Block
+// plugins {
+//     id "com.android.application"
+// // START: FlutterFire Configuration
+// apply plugin: 'com.google.gms.google-services'
+// // END: FlutterFire Configuration
+//     id "kotlin-android"
+//     id "dev.flutter.flutter-gradle-plugin"
+// }
+// //plugins {
+// //    id 'com.android.application'
+// //    id 'kotlin-android'
+// //    // Add Flutter Gradle Plugin
+// //    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
+// //}
+
+// def localProperties = new Properties()
+// def localPropertiesFile = rootProject.file('local.properties')
+// if (localPropertiesFile.exists()) {
+//     localPropertiesFile.withReader('UTF-8') { reader ->
+//         localProperties.load(reader)
+//     }
+// }
+
+// //def flutterRoot = localProperties.getProperty('flutter.sdk')
+// //if (flutterRoot == null) {
+// //    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+// //}
+
+// def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+// if (flutterVersionCode == null) {
+//     flutterVersionCode = '1'
+// }
+
+// def flutterVersionName = localProperties.getProperty('flutter.versionName')
+// if (flutterVersionName == null) {
+//     flutterVersionName = '1.0'
+// }
+
+// //apply plugin: 'com.android.application'
+// //apply plugin: 'kotlin-android'
+// //apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+// def keystoreProperties = new Properties()
+// def keystorePropertiesFile = rootProject.file('key.properties')
+// if (keystorePropertiesFile.exists()) {
+//     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+// }
+// android {
+//     compileSdkVersion 34
+//     ndkVersion flutter.ndkVersion
+
+//     compileOptions {
+//         sourceCompatibility JavaVersion.VERSION_1_8
+//         targetCompatibility JavaVersion.VERSION_1_8
+//     }
+
+//     kotlinOptions {
+//         jvmTarget = '1.8'
+//     }
+
+//     sourceSets {
+//         main.java.srcDirs += 'src/main/kotlin'
+//     }
+
+//     defaultConfig {
+//         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+//         applicationId "com.cloud.whitesupermarketapp"
+//         // You can update the following values to match your application needs.
+//         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+//         minSdkVersion 21
+//         targetSdkVersion 34
+//         versionCode flutterVersionCode.toInteger()
+//         versionName flutterVersionName
+//     }
+
+//     signingConfigs {
+//         release {
+//             keyAlias keystoreProperties['keyAlias']
+//             keyPassword keystoreProperties['keyPassword']
+//             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//             storePassword keystoreProperties['storePassword']
+//         }
+//     }
+//     buildTypes {
+//         release {
+//             // TODO: Add your own signing config for the release build.
+//            // signingConfig signingConfigs.debug
+//             signingConfig signingConfigs.release
+//         }
+//     }
+// }
+
+// flutter {
+//     source '../..'
+// }
+
+// //dependencies {
+// //    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+// //}
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
-//plugins {
-//    id 'com.android.application'
-//    id 'kotlin-android'
-//    // Add Flutter Gradle Plugin
-//    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
-//}
+
+// Apply the Google Services plugin separately
+apply plugin: 'com.google.gms.google-services'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -18,11 +115,6 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
-//def flutterRoot = localProperties.getProperty('flutter.sdk')
-//if (flutterRoot == null) {
-//    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-//}
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
@@ -34,15 +126,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-//apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
-//apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+
 android {
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
@@ -61,10 +150,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.cloud.whitesupermarketapp"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 21
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
@@ -79,10 +165,9 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-           // signingConfig signingConfigs.debug
             signingConfig signingConfigs.release
         }
     }
@@ -91,7 +176,3 @@ android {
 flutter {
     source '../..'
 }
-
-//dependencies {
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//}

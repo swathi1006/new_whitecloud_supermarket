@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "966414259519",
+    "project_id": "whitesupermarket-4efd1",
+    "storage_bucket": "whitesupermarket-4efd1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966414259519:android:d861ec308580e985696f8a",
+        "android_client_info": {
+          "package_name": "com.cloud.whitesupermarketapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOQRCEh6HzvCk0X_-_0Chy5Ei-tKO0gF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
