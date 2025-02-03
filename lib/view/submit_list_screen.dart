@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:whitesupermarketapp/cloudinary_service.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
 import 'package:whitesupermarketapp/widgets/translated_card.dart';
 
@@ -31,7 +32,10 @@ void _pickImage(ImageSource source) async {
   }
 }
 
+
 void _showImageDialog(File imageFile) {
+  final CloudinaryService _cloudinaryService = CloudinaryService();
+
   showDialog(
     context: context,
     builder: (context) {
@@ -75,18 +79,40 @@ void _showImageDialog(File imageFile) {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Get.snackbar(
-                'Success',
-                "Thank you for submitting your list, we'll check and contact you as soon as possible.",
-                backgroundColor: Colors.green.withOpacity(0.2),
-                snackPosition: SnackPosition.BOTTOM,
-                duration: const Duration(seconds: 3),
-              );
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+
+              try {
+                // Upload the image to Cloudinary
+                final imageUrl = await _cloudinaryService.uploadImage(imageFile);
+                print('Image uploaded successfully: $imageUrl');
+
+                // Store the image URL in MongoDB
+                // await storeImageURLInMongoDB(imageUrl);
+
+                // Show success message
+                Get.snackbar(
+                  'Success',
+                  "Thank you for submitting your list, we'll check and contact you as soon as possible.",
+                  // backgroundColor: primary.withOpacity(0.2),
+                  snackPosition: SnackPosition.TOP,
+                  duration: const Duration(seconds: 3),
+                );
+              } catch (e) {
+                print('Error uploading image: $e');
+
+                // Show error message
+                Get.snackbar(
+                  'Error',
+                  'Failed to upload image. Please try again.',
+                  backgroundColor: Colors.red.withOpacity(0.2),
+                  snackPosition: SnackPosition.BOTTOM,
+                  duration: const Duration(seconds: 3),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: primary
+              backgroundColor: primary,
             ),
             child: const Text(
               'Submit',
@@ -98,7 +124,6 @@ void _showImageDialog(File imageFile) {
     },
   );
 }
-
 
 
   // Function to show options for camera or gallery
@@ -236,6 +261,7 @@ void _showImagePickerOptions() {
       appBar: AppBar(
         elevation: 0, // Remove AppBar shadow
         backgroundColor: white,
+        toolbarHeight: 40,
       ),
       backgroundColor: white,
       body: SafeArea(
@@ -330,12 +356,12 @@ void _showImagePickerOptions() {
 
               // Gap between camera icon and submit button
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
+                height: MediaQuery.of(context).size.height * 0.01,
               ),
 
               // Submit Button
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(
                   width: double.infinity, // Full width
                   child: ElevatedButton(
@@ -344,7 +370,7 @@ void _showImagePickerOptions() {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primary, // Button background color
-                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),

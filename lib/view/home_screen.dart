@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SearchBarContainer(controller),
+                // SearchBarContainer(controller), //commented for removing 
                 Expanded(
                   child: Stack(
                     children: [
@@ -790,67 +790,6 @@ class SearchBarContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-      
-    //   decoration: BoxDecoration(
-    //     color: Colors.white,
-    //     borderRadius: BorderRadius.circular(10),
-    //     boxShadow: [
-    //       BoxShadow(
-    //         color: Colors.black.withOpacity(0.1),
-    //         blurRadius: 8,
-    //         offset: Offset(0, 3),
-    //       ),
-    //     ],
-    //   ),
-    //   child: Padding(
-    //     padding: EdgeInsets.symmetric(
-    //       horizontal: MediaQuery.of(context).size.width *
-    //           0.03, // Dynamic horizontal padding
-    //     ),
-    //     child: TextField(
-    //       decoration: InputDecoration(
-    //         hintText: 'Search from 10,000+ Products',
-    //         hintStyle: TextStyle(
-    //           color: Colors.grey,
-    //           fontSize: MediaQuery.of(context).textScaleFactor *
-    //               15, // Scalable font size
-    //           fontWeight: FontWeight.w400,
-    //         ),
-    //         prefixIcon: const Icon(
-    //           Icons.search,
-    //           color: Colors.grey,
-    //         ),
-    //         suffixIcon: controller.searchbarController.text.isNotEmpty
-    //             ? IconButton(
-    //                 onPressed: () {
-    //                   controller.searchbarController.clear();
-    //                   controller.showBlankSearchSuggestions.value = true;
-    //                   controller.search.value = false;
-    //                 },
-    //                 icon: const Icon(Icons.clear, color: Colors.grey),
-    //               )
-    //             : null,
-    //         border: InputBorder.none,
-    //         contentPadding: EdgeInsets.symmetric(
-    //           vertical: MediaQuery.of(context).size.height *
-    //               0.015, // Dynamic vertical padding
-    //         ),
-    //       ),
-    //       controller: controller.searchbarController,
-    //       focusNode: controller.searchBarFocusNode,
-    //       style: TextStyle(
-    //         color: Colors.black,
-    //         fontSize: MediaQuery.of(context).textScaleFactor *
-    //             16, // Scalable font size
-    //       ),
-    //       cursorColor: Colors.grey,
-    //       onChanged: (value) {
-    //         controller.searchProduct(value);
-    //       },
-    //     ),
-    //   ),
-    // );
 
     return Container(
       decoration:  BoxDecoration(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:whitesupermarketapp/firebase_options.dart';
+// import 'package:whitesupermarketapp/firebase_options.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
 import 'package:whitesupermarketapp/util/theme.dart';
 import 'package:whitesupermarketapp/view/splash_screen.dart';

@@ -9,6 +9,7 @@ import 'package:whitesupermarketapp/controller/cart_controller.dart';
 import 'package:whitesupermarketapp/controller/home_controller.dart';
 import 'package:whitesupermarketapp/controller/item_view_controller.dart';
 import 'package:whitesupermarketapp/controller/nav_drawer_controller.dart';
+import 'package:whitesupermarketapp/view/submit_list_screen.dart';
 import 'package:whitesupermarketapp/widgets/product_card.dart';
 import '../controller/my_account_controller.dart';
 import '../util/colors.dart';
@@ -129,6 +130,7 @@ class _ItemViewScreenState extends State<ItemViewScreen> {
                   backgroundColor: primary, // Customize the color
                   onPressed: () {
                     // Add functionality for the new button
+                      Get.to(() => const SubmitListScreen());
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0),
