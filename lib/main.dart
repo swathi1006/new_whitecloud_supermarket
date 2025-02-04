@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:whitesupermarketapp/controller/search_page_controller.dart';
 // import 'package:whitesupermarketapp/firebase_options.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
 import 'package:whitesupermarketapp/util/theme.dart';
@@ -20,7 +21,12 @@ import 'database/mongo.dart';
 // }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures binding is initialized for async operations
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensures binding is initialized for async operations
+
+  // Register SearchPageController before running the app
+  Get.put(SearchPageController());
+
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // ).then((value){
@@ -35,37 +41,35 @@ Future<void> main() async {
       // Handle connection failure gracefully
       print('Failed to connect to MongoDB.');
       // runApp(const ConnectionErrorApp()); // Show a fallback app or UI
-    } else{
-       // Assign the connected database and collections
+    } else {
+      // Assign the connected database and collections
       db = dbAndCollection['db'];
       collection_items = dbAndCollection['collection_items'];
       collection_banners = dbAndCollection['collection_banners'];
       databaseConnected = true;
     }
-   
-  } 
-  catch (e) {
+  } catch (e) {
     print('An unexpected error occurred during database initialization: $e');
     // runApp(const ConnectionErrorApp()); // Show a fallback app or UI
-    
   }
   // Proceed with the main application if no errors
   // runApp(const MyApp());
-   runApp(
+  runApp(
     databaseConnected
         ? const MyApp() // If connected to the database, launch the main app
-        :  MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: myTheme.copyWith(
+        : MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: myTheme.copyWith(
               colorScheme: myTheme.colorScheme.copyWith(secondary: secondary),
             ),
-            home:  const OfflineFallbackScreen(),
-        ), // Otherwise, show the fallback screen
+            home: const OfflineFallbackScreen(),
+          ), // Otherwise, show the fallback screen
   );
-   await SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -76,9 +80,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'White Supermarket',
       debugShowCheckedModeBanner: false,
-       theme: myTheme.copyWith(colorScheme: myTheme.colorScheme.copyWith(secondary: secondary)),
+      theme: myTheme.copyWith(
+          colorScheme: myTheme.colorScheme.copyWith(secondary: secondary)),
       home: SplashScreen(),
-       );
+    );
   }
 }
 

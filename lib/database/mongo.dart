@@ -108,21 +108,48 @@ class MongoDB {
     return items;
 }
 
-  static Future<List<Map<String, dynamic>>> getTagItems(String tag) async {
-    var items = await collection_items!.aggregateToStream([
-      {
-        '\$match': {
-          'item_tags': {
-            '\$in': [tag]
-          }
+static Future<List<Map<String, dynamic>>> getTagItems(String tag) async {
+  print("Searching for: $tag");  // Log the tag being searched
+
+  var items = await collection_items!.aggregateToStream([
+    {
+      '\$match': {
+        'item_tags': {
+          '\$regex': tag, 
+          '\$options': 'i'
         }
-      },
-      {
-        '\$sample': {'size': 6}
       }
-    ]).toList();
-    return items;
+    },
+    {
+      '\$sample': {'size': 6}
+    }
+  ]).toList();
+
+  if (items.isEmpty) {
+    print("MongoDB returned 0 items for '$tag'");
+  } else {
+    print("MongoDB returned ${items.length} items for '$tag'");
   }
+
+  return items;
+}
+
+
+  // static Future<List<Map<String, dynamic>>> getTagItems(String tag) async {
+  //   var items = await collection_items!.aggregateToStream([
+  //     {
+  //       '\$match': {
+  //         'item_tags': {
+  //           '\$in': [tag]
+  //         }
+  //       }
+  //     },
+  //     {
+  //       '\$sample': {'size': 6}
+  //     }
+  //   ]).toList();
+  //   return items;
+  // }
 
   static getItemsById(id) async {
     var items = await collection_items!.findOne(where.eq('id', id));

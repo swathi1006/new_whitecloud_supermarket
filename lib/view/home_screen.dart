@@ -484,17 +484,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       itemBuilder: (context, index) {
                                         final e =
                                         controller.allProducts[index];
-                                        return _HoverableChip(
-                                          label: e,
-                                          onTap: () async {
-                                            controller.searchbarController
-                                                .text = e;
-                                            controller.searchBarFocusNode
-                                                .unfocus(); // Close keyboard
-                                            controller
-                                                .setProductsBasedOnTagSearch(); // Fetch and display products
-                                          },
-                                        );
+                                        // return _HoverableChip(
+                                        //   label: e,
+                                        //   onTap: () async {
+                                        //     controller.searchbarController
+                                        //         .text = e;
+                                        //     controller.searchBarFocusNode
+                                        //         .unfocus(); // Close keyboard
+                                        //     controller
+                                        //         .setProductsBasedOnTagSearch(); // Fetch and display products
+                                        //   },
+                                        // );
                                       },
                                     ),
                                   ),

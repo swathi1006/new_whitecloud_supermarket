@@ -353,13 +353,13 @@ class MainScreen extends StatelessWidget {
                       focusNode: homeController.searchBarFocusNode,
                       style: const TextStyle(color: Colors.black),
                       onTap: () {
-                        Get.to(() => const SearchPage());
+                        Get.to(() =>  SearchPage());
                       },
                       readOnly: true,
                       decoration: InputDecoration(
                         prefixIcon:
                             const Icon(Icons.search, color: Colors.black),
-                        hintText: 'Search WhiteApp',
+                        hintText: 'Search',
                         hintStyle: GoogleFonts.poppins(
                           color: Colors.black,
                           fontSize: 12,
