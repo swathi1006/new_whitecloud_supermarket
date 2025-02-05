@@ -20,6 +20,7 @@ class SearchPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+     print("All Products Loaded: ${allProducts.length}");
     searchBarFocusNode = FocusNode(); // Initialize the focus node
     searchBarFocusNode.addListener(() {
        print("Focus changed: ${searchBarFocusNode.hasFocus}");
@@ -38,124 +39,186 @@ class SearchPageController extends GetxController {
 
   
 
-  // Search for product suggestions
-  // void searchProduct(String pattern) {
-  //   searchSuggestions.clear();
-  //   if (pattern.isNotEmpty) {
-  //     showBlankSearchSuggestions.value = false;
-  //     searchSuggestions.addAll(
-  //       allProducts.where((element) {
-  //         print("Checking: ${element.item_name}"); // Debug line
-  //         return element.item_name
-  //             .toLowerCase()
-  //             .startsWith(pattern.toLowerCase());
-  //       }).map((e) => e.item_name),
-  //     );
-  //     searchSuggestions.sort((a, b) => a.compareTo(b));
-  //     print("Search Suggestions: ${searchSuggestions.join(', ')}");
-  //   } else {
-  //     showBlankSearchSuggestions.value = true;
-  //     searchSuggestions.addAll(allProducts.map((p) => p.item_name));
-  //     searchSuggestions.sort((a, b) => a.compareTo(b));
-  //     print("All Suggestions: ${searchSuggestions.join(', ')}");
-  //   }
-  // }
-void searchProduct(String pattern) {
-  print("🔍 Searching for: $pattern");
-  print("📦 Total Products Loaded: ${allProducts.length}");
+// void searchProduct(String pattern) {
+//   print("🔍 Searching for: $pattern");
+//   print("📦 Total Products Loaded: ${allProducts.length}");
 
-  searchSuggestions.clear(); // Clear previous suggestions
+//   searchSuggestions.clear(); // Clear previous suggestions
 
-  if (pattern.isNotEmpty) {
-    showBlankSearchSuggestions.value = false;
+//   if (pattern.isNotEmpty) {
+//     showBlankSearchSuggestions.value = false;
 
-    // Filter and map to suggestions (product names)
-    var filteredSuggestions = allProducts
-        .where((product) => product.item_name.toLowerCase().startsWith(pattern.toLowerCase()))
-        .map((product) => product.item_name) // Just add item names for suggestions
-        .toList();
+//     // Filter and map to suggestions (product names)
+//     var filteredSuggestions = allProducts
+//         .where((product) => product.item_name.toLowerCase().startsWith(pattern.toLowerCase()))
+//         .map((product) => product.item_name) // Just add item names for suggestions
+//         .toList();
 
-    searchSuggestions.assignAll(filteredSuggestions); // Use assignAll to update suggestions
-    searchSuggestions.sort(); // Sort suggestions
+//     searchSuggestions.assignAll(filteredSuggestions); // Use assignAll to update suggestions
+//     searchSuggestions.sort(); // Sort suggestions
 
-    print("✅ Updated Search Suggestions: ${searchSuggestions.join(', ')}");
-  } else {
-    showBlankSearchSuggestions.value = true;
-    searchSuggestions.assignAll(allProducts.map((p) => p.item_name)); // Default to all products
-    searchSuggestions.sort();
+//     print("✅ Updated Search Suggestions: ${searchSuggestions.join(', ')}");
+//   } else {
+//     showBlankSearchSuggestions.value = true;
+//     searchSuggestions.assignAll(allProducts.map((p) => p.item_name)); // Default to all products
+//     searchSuggestions.sort();
 
-    print("📌 All Search Suggestions: ${searchSuggestions.join(', ')}");
+//     print("📌 All Search Suggestions: ${searchSuggestions.join(', ')}");
+//   }
+
+//   print("🔹 Final Suggestions Count: ${searchSuggestions.length}");
+// }
+
+
+Future<void> searchProduct(String pattern) async {
+  if (pattern.isEmpty) {
+    print("⚠️ Search pattern is empty. No query sent.");
+    searchSuggestions.clear();
+    return;
   }
 
-  print("🔹 Final Suggestions Count: ${searchSuggestions.length}");
+  try {
+    print("🔍 Querying MongoDB for: $pattern");
+    
+    // Fetch matching products from MongoDB
+    var result = await MongoDB.getTagItems(pattern);
+    
+    if (result.isNotEmpty) {
+      var products = result.map((item) => Product(
+        item['_id'].toHexString(),
+        item['item_code'],
+        item['item_name'],
+        item['item_mrp'].toString(),
+        item['offer_price'].toString(),
+        List<String>.from(item['item_catogory']),
+        item['discount'].toString(),
+        List<String>.from(item['item_tags']),
+        item['item_image'],
+        item['stock_quantity'],
+        item['item_discription'],
+      )).toList();
+
+      searchSuggestions.assignAll(products.map((p) => p.item_name).toList());
+      searchSuggestions.sort();
+      print("✅ Search Suggestions: ${searchSuggestions.join(', ')}");
+    } else {
+      searchSuggestions.clear();
+      print("⚠️ No products found for search pattern: $pattern");
+    }
+  } catch (e) {
+    print("❌ Error during search: $e");
+  }
 }
 
 
-  // Fetch products based on the selected tag/search term
-  Future<void> setProductsBasedOnTagSearch() async {
-    if (searchbarController.text.isNotEmpty) {
-      label.value = searchbarController.text;
-      var items = await MongoDB.getTagItems(searchbarController.text);
-      print("MongoDB returned ${items.length} items for '${searchbarController.text}'");
+Future<void> setProductsBasedOnTagSearch() async {
+  if (searchbarController.text.isNotEmpty) {
+    label.value = searchbarController.text;
+    var items = await MongoDB.getTagItems(searchbarController.text);
+    print("MongoDB returned ${items.length} items for '${searchbarController.text}'");
 
-      if (items.isNotEmpty) {
-        search.value = true;
-        gridChildren.clear();
-
-        gridChildrenOld.clear(); // Move this before looping through items.
-
-        for (var item in items) {
-          // Add debug print
-          print(
-              "Processing product: ${item['item_name']} with ID: ${item['_id']}");
-          List<String> itemCategoryList =List<String>.from(item['item_catogory']);
-          List<String> itemTagList = List<String>.from(item['item_tags']);
-
-          Product newProduct = Product(
-            item['_id'].toHexString(),
-            item['item_code'],
-            item['item_name'],
-            item['item_mrp'].toString(),
-            item['offer_price'].toString(),
-            itemCategoryList,
-            item['discount'].toString(),
-            itemTagList,
-            item['item_image'],
-            item['stock_quantity'],
-            item['item_discription'],
-          );
-
-          bool productExists =
-              gridChildren.any((product) => product.id == newProduct.id);
-          if (!productExists) {
-            gridChildrenOld.add(newProduct);
-          }
-        }
-        gridChildren.addAll(gridChildrenOld);
-        gridChildrenOld.clear();
-      }
-
-      globalItems.assignAll(
-        items.map((item) => Product(
-              item['_id'].toHexString(),
-              item['item_code'],
-              item['item_name'],
-              item['item_mrp'].toString(),
-              item['offer_price'].toString(),
-              List<String>.from(item['item_catogory']),
-              item['discount'].toString(),
-              List<String>.from(item['item_tags']),
-              item['item_image'],
-              item['stock_quantity'],
-              item['item_discription'],
-            )),
-      );
-    } else {
+    if (items.isNotEmpty) {
+      search.value = true;
       gridChildren.clear();
-      allProducts.shuffle();
-      gridChildren.assignAll(allProducts);
+
+      for (var item in items) {
+        print("Processing product: ${item['item_name']} with ID: ${item['_id']}");
+        List<String> itemCategoryList = List<String>.from(item['item_catogory']);
+        List<String> itemTagList = List<String>.from(item['item_tags']);
+
+        Product newProduct = Product(
+          item['_id'].toHexString(),
+          item['item_code'],
+          item['item_name'],
+          item['item_mrp'].toString(),
+          item['offer_price'].toString(),
+          itemCategoryList,
+          item['discount'].toString(),
+          itemTagList,
+          item['item_image'],
+          item['stock_quantity'],
+          item['item_discription'],
+        );
+
+        gridChildren.add(newProduct);
+      }
+    } else {
+      print("No items found for the search.");
     }
+  } else {
+    gridChildren.clear();
+    allProducts.shuffle();
+    gridChildren.assignAll(allProducts);
   }
+}
+
+
+
+  // // Fetch products based on the selected tag/search term
+  // Future<void> setProductsBasedOnTagSearch() async {
+  //   if (searchbarController.text.isNotEmpty) {
+  //     label.value = searchbarController.text;
+  //     var items = await MongoDB.getTagItems(searchbarController.text);
+  //     print("MongoDB returned ${items.length} items for '${searchbarController.text}'");
+
+  //     if (items.isNotEmpty) {
+  //       search.value = true;
+  //       gridChildren.clear();
+
+  //       gridChildrenOld.clear(); // Move this before looping through items.
+
+  //       for (var item in items) {
+  //         // Add debug print
+  //         print(
+  //             "Processing product: ${item['item_name']} with ID: ${item['_id']}");
+  //         List<String> itemCategoryList =List<String>.from(item['item_catogory']);
+  //         List<String> itemTagList = List<String>.from(item['item_tags']);
+
+  //         Product newProduct = Product(
+  //           item['_id'].toHexString(),
+  //           item['item_code'],
+  //           item['item_name'],
+  //           item['item_mrp'].toString(),
+  //           item['offer_price'].toString(),
+  //           itemCategoryList,
+  //           item['discount'].toString(),
+  //           itemTagList,
+  //           item['item_image'],
+  //           item['stock_quantity'],
+  //           item['item_discription'],
+  //         );
+
+  //         bool productExists =
+  //             gridChildren.any((product) => product.id == newProduct.id);
+  //         if (!productExists) {
+  //           gridChildrenOld.add(newProduct);
+  //         }
+  //       }
+  //       gridChildren.addAll(gridChildrenOld);
+  //       gridChildrenOld.clear();
+  //     }
+
+  //     globalItems.assignAll(
+  //       items.map((item) => Product(
+  //             item['_id'].toHexString(),
+  //             item['item_code'],
+  //             item['item_name'],
+  //             item['item_mrp'].toString(),
+  //             item['offer_price'].toString(),
+  //             List<String>.from(item['item_catogory']),
+  //             item['discount'].toString(),
+  //             List<String>.from(item['item_tags']),
+  //             item['item_image'],
+  //             item['stock_quantity'],
+  //             item['item_discription'],
+  //           )),
+  //     );
+  //   } else {
+  //     gridChildren.clear();
+  //     allProducts.shuffle();
+  //     gridChildren.assignAll(allProducts);
+  //   }
+  // }
 
   void _scrollListener() {
     // Implement scroll-based logic if needed

@@ -27,6 +27,45 @@ class MongoDB {
   }
 
 
+
+  static Future<void> insertSubmitList({
+    required String cxName,
+    required String cxPhoneNumber,
+    required String listImageUrl,
+  }) async {
+    try {
+      // Ensure the database is connected
+      if (db == null || !db!.isConnected) {
+        await connect();
+      }
+
+      // Access the 'submitlist' collection (it will be created if it doesn't exist)
+      var collectionSubmitList = db!.collection('submitlist');
+
+      // Create a document to insert
+      var document = {
+        'cx_name': cxName,
+        'cx_phone_number': cxPhoneNumber,
+        'list_image_url': listImageUrl,
+        'submitted_at': DateTime.now(), // Optional: Add a timestamp
+      };
+
+      // Insert the document into the collection
+      await collectionSubmitList.insert(document);
+
+      print('Document inserted successfully into submitlist collection.');
+    } catch (e) {
+      print('Error inserting document into submitlist collection: $e');
+      rethrow; // Rethrow the error to handle it in the calling function
+    }
+  }
+
+  // ... (existing code)
+
+
+
+
+
  
 
   static Future<void> getBanners() async {

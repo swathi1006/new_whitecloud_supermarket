@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whitesupermarketapp/cloudinary_service.dart';
+import 'package:whitesupermarketapp/database/global.dart';
+import 'package:whitesupermarketapp/database/mongo.dart';
 import 'package:whitesupermarketapp/util/colors.dart';
 import 'package:whitesupermarketapp/widgets/translated_card.dart';
 
@@ -88,7 +90,12 @@ void _showImageDialog(File imageFile) {
                 print('Image uploaded successfully: $imageUrl');
 
                 // Store the image URL in MongoDB
-                // await storeImageURLInMongoDB(imageUrl);
+                 // Insert the details into MongoDB
+                await MongoDB.insertSubmitList(
+                  cxName: UserName, // Replace with actual customer name
+                  cxPhoneNumber: phone, // Replace with actual phone number
+                  listImageUrl: imageUrl,
+                );
 
                 // Show success message
                 Get.snackbar(
